@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://be6aucgi5intg"]
+
+[ext_resource type="Texture2D" uid="uid://dn3bgrjwecf37" path="res://Assets/blackboard.png" id="1_2l5ae"]
+[ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
+size = Vector2(144, 144)
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_wfx12")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_2l5ae")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5d0n7")

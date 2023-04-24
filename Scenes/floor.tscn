@@ -1,14 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cs0uw0lox1d5p"]
+[gd_scene load_steps=3 format=3 uid="uid://dflldkbtccrde"]
 
-[ext_resource type="Texture2D" uid="uid://bsymgvauqdaoc" path="res://Assets/player.png" id="1_a80gb"]
+[ext_resource type="Texture2D" uid="uid://djg415ec817fy" path="res://Assets/wood_ground.png" id="1_m1lsh"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_clfre"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqwmj"]
+size = Vector2(224, 144)
 
 [node name="StaticBody2D" type="StaticBody2D"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(4.71349, 4.8)
-shape = SubResource("RectangleShape2D_clfre")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_a80gb")
+texture = ExtResource("1_m1lsh")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jqwmj")
