@@ -16,7 +16,7 @@ var _jump_time = 0
 var _is_jumping = false
 var heatlh = max_health
 
-func _enter_tree():
+func _ready():
 	_is_jumping = false
 	_jump_time = 0
 	heatlh = max_health

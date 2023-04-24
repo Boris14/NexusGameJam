@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://p6bqgvftxsv8"]
+
+[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/platfrom.tscn" id="1_3au51"]
+[ext_resource type="Script" path="res://Source/main.gd" id="1_ogglp"]
+[ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/floor.tscn" id="2_02bkg"]
+[ext_resource type="PackedScene" uid="uid://cga5x1i7j17iw" path="res://Scenes/player.tscn" id="2_ew4jm"]
+[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/blackboard.tscn" id="4_6ielx"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ogglp")
+
+[node name="blackboard" parent="." instance=ExtResource("4_6ielx")]
+position = Vector2(600, 208)
+scale = Vector2(3.68, 1.8059)
+
+[node name="platform" parent="." instance=ExtResource("1_3au51")]
+position = Vector2(600, 416)
+scale = Vector2(3.20781, 0.770268)
+
+[node name="floor" parent="." instance=ExtResource("2_02bkg")]
+position = Vector2(584, 724)
+scale = Vector2(6.28, 2.76)
+
+[node name="right_wall" parent="." instance=ExtResource("2_02bkg")]
+position = Vector2(1312, 240)
+rotation = 1.5708
+scale = Vector2(5.41458, 2.15633)
+
+[node name="left_wall" parent="." instance=ExtResource("2_02bkg")]
+position = Vector2(-72, 184)
+rotation = 1.5708
+scale = Vector2(4.72, 1)
+
+[node name="player" parent="." instance=ExtResource("2_ew4jm")]
+position = Vector2(136, 424)
+speed = 400.0
