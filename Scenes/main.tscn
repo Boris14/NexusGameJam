@@ -1,36 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://p6bqgvftxsv8"]
+[gd_scene load_steps=6 format=3 uid="uid://7lqh0eq0nqb3"]
 
-[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/platfrom.tscn" id="1_3au51"]
-[ext_resource type="Script" path="res://Source/main.gd" id="1_ogglp"]
-[ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/floor.tscn" id="2_02bkg"]
-[ext_resource type="PackedScene" uid="uid://cga5x1i7j17iw" path="res://Scenes/player.tscn" id="2_ew4jm"]
-[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/blackboard.tscn" id="4_6ielx"]
+[ext_resource type="Script" path="res://Source/main.gd" id="1_l1i7m"]
+[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/Blackboard.tscn" id="2_yyua3"]
+[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/Platfrom.tscn" id="3_c0mjr"]
+[ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/Floor.tscn" id="4_0o56b"]
+[ext_resource type="PackedScene" uid="uid://clkcyvj24mjh6" path="res://Scenes/HUD.tscn" id="6_joee4"]
 
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_ogglp")
+[node name="Game" type="Node"]
+script = ExtResource("1_l1i7m")
 
-[node name="blackboard" parent="." instance=ExtResource("4_6ielx")]
+[node name="Blackboard" parent="." instance=ExtResource("2_yyua3")]
 position = Vector2(600, 208)
 scale = Vector2(3.68, 1.8059)
 
-[node name="platform" parent="." instance=ExtResource("1_3au51")]
+[node name="Platform" parent="." instance=ExtResource("3_c0mjr")]
 position = Vector2(600, 416)
 scale = Vector2(3.20781, 0.770268)
 
-[node name="floor" parent="." instance=ExtResource("2_02bkg")]
+[node name="Floor" parent="." instance=ExtResource("4_0o56b")]
 position = Vector2(584, 724)
 scale = Vector2(6.28, 2.76)
 
-[node name="right_wall" parent="." instance=ExtResource("2_02bkg")]
+[node name="RightWall" parent="." instance=ExtResource("4_0o56b")]
 position = Vector2(1312, 240)
 rotation = 1.5708
 scale = Vector2(5.41458, 2.15633)
 
-[node name="left_wall" parent="." instance=ExtResource("2_02bkg")]
+[node name="LeftWall" parent="." instance=ExtResource("4_0o56b")]
 position = Vector2(-72, 184)
 rotation = 1.5708
 scale = Vector2(4.72, 1)
 
-[node name="player" parent="." instance=ExtResource("2_ew4jm")]
-position = Vector2(136, 424)
-speed = 400.0
+[node name="HUD" parent="." instance=ExtResource("6_joee4")]
+
+[node name="Player1StartPosition" type="Node2D" parent="."]
+position = Vector2(120, 432)
+
+[node name="Player2StartPosition" type="Node2D" parent="."]
+position = Vector2(1064, 432)

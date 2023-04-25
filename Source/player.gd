@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal health_changed(is_player_1, new_health, max_health)
+
 @export var speed = 300.0
 @export var max_jump_velocity = -800.0
 @export var max_jump_hold_time = 0.2
@@ -14,12 +16,26 @@ const JUMP_FORCE = 20
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _jump_time = 0
 var _is_jumping = false
-var heatlh = max_health
+var _health = max_health
+
+# Controls
+var _move_left_action
+var _move_right_action
+var _jump_action
+var _punch_action
+var _kick_action
+var _block_action
 
 func _ready():
 	_is_jumping = false
 	_jump_time = 0
-	heatlh = max_health
+	_health = max_health
+	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
+	_move_right_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_right")
+	_jump_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_jump")
+	_punch_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_punch")
+	_kick_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_kick")
+	_block_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_block")
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -27,13 +43,13 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle Jump.
-	if Input.is_action_just_pressed("player_1_jump") and is_on_floor():
+	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
 		_is_jumping = true
-	elif Input.is_action_just_released("player_1_jump"):
+	elif Input.is_action_just_released(_jump_action):
 		_is_jumping = false
 		_jump_time = 0
 	if (
-		_is_jumping and Input.is_action_pressed("player_1_jump") 
+		_is_jumping and Input.is_action_pressed(_jump_action) 
 		and _jump_time < max_jump_hold_time
 	):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
@@ -41,10 +57,21 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("player_1_left", "player_1_right")
+	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
 		velocity.x = direction * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
+	
+	# Punch yourself to test the healthbar
+	if Input.is_action_just_pressed(_punch_action):
+		take_damage(punch_damage)
+
+func take_damage(damage):
+	_health -= damage
+	_health = clamp(_health, 0, max_health)
+	emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
+	if _health <= 0:
+		queue_free()

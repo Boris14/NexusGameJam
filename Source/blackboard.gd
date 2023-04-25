@@ -6,5 +6,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	# Use get_overlapping_bodies() to get the players
 	pass
-	#get_overlapping_bodies()

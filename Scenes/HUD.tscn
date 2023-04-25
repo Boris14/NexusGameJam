@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://clkcyvj24mjh6"]
+
+[ext_resource type="Script" path="res://Source/hud.gd" id="1_r0twu"]
+[ext_resource type="Texture2D" uid="uid://c1jm8c203ndde" path="res://Assets/buttonLong_grey.png" id="2_q5rdk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mcdoc"]
+font_size = 50
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r0twu")
+
+[node name="RoundTimeLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "60"
+label_settings = SubResource("LabelSettings_mcdoc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundTimer" type="Timer" parent="."]
+
+[node name="Player1HealthBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 240.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("2_q5rdk")
+texture_progress = ExtResource("2_q5rdk")
+tint_progress = Color(1, 0, 0, 1)
+
+[node name="Player2HealthBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 20.0
+offset_right = -50.0
+offset_bottom = 69.0
+grow_horizontal = 0
+value = 100.0
+texture_under = ExtResource("2_q5rdk")
+texture_progress = ExtResource("2_q5rdk")
+tint_progress = Color(1, 0, 0, 1)
+
+[connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
