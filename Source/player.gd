@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 signal health_changed(is_player_1, new_health, max_health)
-signal drop_glasses(player)
+signal dropped_glasses(player)
 # When the player is without glasses and presses punch_action 
-signal try_pick_up_glasses(player)
+signal tried_glasses_pickup(player)
 
 @export var speed = 300.0
 @export var max_jump_velocity = -800.0
@@ -18,6 +18,7 @@ const JUMP_FORCE = 20
 # Player States
 var _is_jumping = false
 var _is_without_glasses = false
+var _is_picking_up_glasses = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -49,6 +50,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
+	if _is_picking_up_glasses:
+		return
+
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
 		_is_jumping = true
@@ -75,7 +79,7 @@ func _physics_process(delta):
 	# Punch yourself to test the healthbar
 	if Input.is_action_just_pressed(_punch_action):
 		if _is_without_glasses:
-			emit_signal("try_pick_up_glasses", self)
+			emit_signal("tried_glasses_pickup", self)
 		else:
 			take_damage(punch_damage)
 
@@ -87,10 +91,13 @@ func take_damage(damage):
 	if _health <= 0:
 		# Drops glasses
 		_is_without_glasses = true
-		emit_signal("drop_glasses", self)
+		emit_signal("dropped_glasses", self)
 		
-func _on_glasses_picked_up():
+func _on_started_glasses_pickup(pickup_time):
+	_is_picking_up_glasses = true
+	await get_tree().create_timer(pickup_time).timeout
 	take_damage(-max_health)
+	_is_picking_up_glasses = false
 	_is_without_glasses = false
 	
 		

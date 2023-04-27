@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1pq534yq2rjx"]
+
+[ext_resource type="Script" path="res://Source/pickup_bar.gd" id="1_3hlt5"]
+[ext_resource type="Texture2D" uid="uid://dn3bgrjwecf37" path="res://Assets/blackboard.png" id="1_cg5mu"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oio3a"]
+load_path = "res://.godot/imported/buttonLong_grey.png-0a0c8a407e8e375c1fd96ba8b2a5dfdf.ctex"
+
+[node name="PickupBar" type="Panel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -20.0
+offset_right = 125.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3hlt5")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_oio3a")
+
+[node name="Indicator" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 49.0
+texture = ExtResource("1_cg5mu")
+expand_mode = 1

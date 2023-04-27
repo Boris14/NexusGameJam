@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1jm8c203ndde"
-path="res://.godot/imported/buttonLong_grey.png-0a0c8a407e8e375c1fd96ba8b2a5dfdf.ctex"
+uid="uid://bsymgvauqdaoc"
+path="res://.godot/imported/glasses.png-ff5d4e92f7668ceee70a607970b63e44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/buttonLong_grey.png"
-dest_files=["res://.godot/imported/buttonLong_grey.png-0a0c8a407e8e375c1fd96ba8b2a5dfdf.ctex"]
+source_file="res://Assets/glasses.png"
+dest_files=["res://.godot/imported/glasses.png-ff5d4e92f7668ceee70a607970b63e44.ctex"]
 
 [params]
 
