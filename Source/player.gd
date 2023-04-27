@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 signal health_changed(is_player_1, new_health, max_health)
+signal drop_glasses(player)
+# When the player is without glasses and presses punch_action 
+signal try_pick_up_glasses(player)
 
 @export var speed = 300.0
 @export var max_jump_velocity = -800.0
@@ -12,10 +15,13 @@ signal health_changed(is_player_1, new_health, max_health)
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
 
+# Player States
+var _is_jumping = false
+var _is_without_glasses = false
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _jump_time = 0
-var _is_jumping = false
 var _health = max_health
 
 # Controls
@@ -28,6 +34,7 @@ var _block_action
 
 func _ready():
 	_is_jumping = false
+	_is_without_glasses = false
 	_jump_time = 0
 	_health = max_health
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
@@ -67,11 +74,24 @@ func _physics_process(delta):
 	
 	# Punch yourself to test the healthbar
 	if Input.is_action_just_pressed(_punch_action):
-		take_damage(punch_damage)
+		if _is_without_glasses:
+			emit_signal("try_pick_up_glasses", self)
+		else:
+			take_damage(punch_damage)
+
 
 func take_damage(damage):
 	_health -= damage
 	_health = clamp(_health, 0, max_health)
 	emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
 	if _health <= 0:
-		queue_free()
+		# Drops glasses
+		_is_without_glasses = true
+		emit_signal("drop_glasses", self)
+		
+func _on_glasses_picked_up():
+	take_damage(-max_health)
+	_is_without_glasses = false
+	
+		
+	

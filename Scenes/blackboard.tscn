@@ -6,8 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
 size = Vector2(144, 144)
 
-[node name="Area2D" type="Area2D"]
-collision_layer = 0
+[node name="Blackboard" type="Area2D"]
+collision_layer = 4
 script = ExtResource("1_wfx12")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
