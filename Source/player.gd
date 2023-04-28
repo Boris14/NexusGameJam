@@ -22,8 +22,7 @@ var _jump_time = 0
 var _is_jumping = false
 var _health = max_health
 var _is_facing_left = false
-var _is_punch_blocked = false
-var _is_kick_blocked = false
+var _is_movement_blocked = false
 
 # Controls
 var _move_left_action
@@ -63,32 +62,27 @@ func _physics_process(delta):
 	):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
+	
+	if Input.is_action_just_pressed(_punch_action) and not _is_movement_blocked:
+		_is_movement_blocked = true
+		get_tree().create_timer(punch_duration).timeout.connect(punch)
+			
+	if Input.is_action_just_pressed(_kick_action) and not _is_movement_blocked:
+		_is_movement_blocked = true
+		get_tree().create_timer(kick_duration).timeout.connect(kick)
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
+	if _is_movement_blocked:
+		return
+
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
 		_change_facing_direction(direction)
 		velocity.x = direction * speed
-		
+			
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
-	
-	if Input.is_action_just_pressed(_punch_action):
-
-		if _is_punch_blocked:
-			return
-		_is_punch_blocked = true
-		get_tree().create_timer(punch_duration).timeout.connect(punch)
-			
-	if Input.is_action_just_pressed(_kick_action):
-
-		if _is_kick_blocked:
-			return
-		_is_kick_blocked = true
-		get_tree().create_timer(kick_duration).timeout.connect(kick)
 
 func take_damage(damage):
 	_health -= damage
@@ -97,15 +91,16 @@ func take_damage(damage):
 	if _health <= 0:
 		queue_free()
 		
-func _activate_hit_area(is_facing_left, damage):
-	if (is_facing_left):
-		for body in $LeftHitArea.get_overlapping_bodies():
-			if body.has_method("take_damage") and body != self:
-				body.take_damage(damage)
+func _activate_hit_area(is_facing_left, damage, is_kick):
+	var HitArea
+	if is_kick:
+		HitArea = $LeftKickArea if is_facing_left else $RightKickArea
 	else:
-		for body in $RightHitArea.get_overlapping_bodies():
-			if body.has_method("take_damage") and body != self:
-				body.take_damage(damage)
+		HitArea = $LeftPunchArea if is_facing_left else $RightPunchArea
+		
+	for body in HitArea.get_overlapping_bodies():
+		if body.has_method("take_damage") and body != self:
+			body.take_damage(damage)
 
 func _change_facing_direction(direction):
 	if direction == 1:
@@ -113,17 +108,14 @@ func _change_facing_direction(direction):
 	else:
 		_is_facing_left = true
 
-func _reset_punch_block():
-	_is_punch_blocked = false
-	
-func _reset_kick_block():
-	_is_kick_blocked = false
+func _reset_movement():
+	_is_movement_blocked = false
 
 func punch():
-	_activate_hit_area(_is_facing_left, punch_damage)
-	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_punch_block)
+	_activate_hit_area(_is_facing_left, punch_damage, false)
+	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
 	
 func kick():
-	_activate_hit_area(_is_facing_left, kick_damage)
-	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_kick_block)
+	_activate_hit_area(_is_facing_left, kick_damage, true)
+	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_movement)
 

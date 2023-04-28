@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cga5x1i7j17iw"]
+[gd_scene load_steps=6 format=3 uid="uid://cga5x1i7j17iw"]
 
 [ext_resource type="Script" path="res://Source/player.gd" id="1_sm4am"]
 [ext_resource type="Texture2D" uid="uid://dfjjsyv623kyh" path="res://Assets/icon.svg" id="2_7s0hl"]
@@ -9,6 +9,10 @@ height = 128.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_akgel"]
 radius = 48.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhct1"]
+radius = 18.0
+height = 118.808
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 position = Vector2(374, -99)
@@ -23,22 +27,46 @@ metadata/_edit_lock_ = true
 shape = SubResource("CapsuleShape2D_81hmu")
 metadata/_edit_lock_ = true
 
-[node name="LeftHitArea" type="Area2D" parent="."]
-collision_mask = 3
+[node name="LeftPunchArea" type="Area2D" parent="."]
+collision_mask = 2
+metadata/_edit_lock_ = true
 
-[node name="LeftHitCollision" type="CollisionShape2D" parent="LeftHitArea"]
+[node name="LeftHitCollision" type="CollisionShape2D" parent="LeftPunchArea"]
 light_mask = 0
 position = Vector2(-48, 0)
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.627451, 0.529412, 0, 0.419608)
 metadata/_edit_lock_ = true
 
-[node name="RightHitArea" type="Area2D" parent="."]
+[node name="RightPunchArea" type="Area2D" parent="."]
 position = Vector2(46, 0)
-collision_mask = 3
+collision_mask = 2
+metadata/_edit_lock_ = true
 
-[node name="RightHitCollision" type="CollisionShape2D" parent="RightHitArea"]
+[node name="RightHitCollision" type="CollisionShape2D" parent="RightPunchArea"]
 light_mask = 0
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.831373, 0.341176, 0.501961, 0.419608)
+metadata/_edit_lock_ = true
+
+[node name="LeftKickArea" type="Area2D" parent="."]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftKickArea"]
+position = Vector2(-88, -14)
+rotation = -1.31598
+shape = SubResource("CapsuleShape2D_qhct1")
+debug_color = Color(0.788235, 0.431373, 0, 0.419608)
+metadata/_edit_lock_ = true
+
+[node name="RightKickArea" type="Area2D" parent="."]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightKickArea"]
+position = Vector2(88, -14)
+rotation = 1.31598
+shape = SubResource("CapsuleShape2D_qhct1")
+debug_color = Color(0.960784, 0, 0.701961, 0.419608)
 metadata/_edit_lock_ = true
