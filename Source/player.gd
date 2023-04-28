@@ -11,6 +11,10 @@ signal tried_glasses_pickup(player)
 @export var max_health = 100.0
 @export var punch_damage = 10.0
 @export var kick_damage = 20.0
+@export var punch_block_duration = 0.5
+@export var punch_duration = 0.5
+@export var kick_block_duration = 1
+@export var kick_duration = 1
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
@@ -19,6 +23,8 @@ const JUMP_FORCE = 20
 var _is_jumping = false
 var _is_without_glasses = false
 var _is_picking_up_glasses = false
+var _is_facing_left = false
+var _is_movement_blocked = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -36,6 +42,7 @@ var _block_action
 func _ready():
 	_is_jumping = false
 	_is_without_glasses = false
+	_is_facing_left = not get_meta("is_player_1")
 	_jump_time = 0
 	_health = max_health
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
@@ -53,6 +60,14 @@ func _physics_process(delta):
 	if _is_picking_up_glasses:
 		return
 
+	if not _is_movement_blocked and not _is_without_glasses:
+		if Input.is_action_just_pressed(_punch_action):
+			_is_movement_blocked = true
+			get_tree().create_timer(punch_duration).timeout.connect(_punch)
+		elif Input.is_action_just_pressed(_kick_action):
+			_is_movement_blocked = true
+			get_tree().create_timer(kick_duration).timeout.connect(_kick)
+
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
 		_is_jumping = true
@@ -66,22 +81,22 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
+	if _is_movement_blocked:
+		return
+
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
+		_change_facing_direction(direction)
 		velocity.x = direction * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
 	
-	# Punch yourself to test the healthbar
-	if Input.is_action_just_pressed(_punch_action):
-		if _is_without_glasses:
-			emit_signal("tried_glasses_pickup", self)
-		else:
-			take_damage(punch_damage)
+	if Input.is_action_just_pressed(_punch_action) and _is_without_glasses:
+		emit_signal("tried_glasses_pickup", self)
 
 
 func take_damage(damage):
@@ -100,5 +115,34 @@ func _on_started_glasses_pickup(pickup_time):
 	_is_picking_up_glasses = false
 	_is_without_glasses = false
 	
+	
+
+func _activate_hit_area(is_facing_left, damage, is_kick):
+	var HitArea
+	if is_kick:
+		HitArea = $LeftKickArea if is_facing_left else $RightKickArea
+	else:
+		HitArea = $LeftPunchArea if is_facing_left else $RightPunchArea
+
+	for body in HitArea.get_overlapping_bodies():
+		if body.has_method("take_damage") and body != self:
+			body.take_damage(damage)
+
+func _change_facing_direction(direction):
+	if direction == 1:
+		_is_facing_left = false
+	else:
+		_is_facing_left = true
+
+func _reset_movement():
+	_is_movement_blocked = false
+
+func _punch():
+	_activate_hit_area(_is_facing_left, punch_damage, false)
+	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
+
+func _kick():
+	_activate_hit_area(_is_facing_left, kick_damage, true)
+	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_movement)
 		
 	

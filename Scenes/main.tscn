@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://7lqh0eq0nqb3"]
 
 [ext_resource type="Script" path="res://Source/main.gd" id="1_l1i7m"]
-[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/Blackboard.tscn" id="2_yyua3"]
-[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/Platfrom.tscn" id="3_c0mjr"]
-[ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/Floor.tscn" id="4_0o56b"]
-[ext_resource type="PackedScene" path="res://Scenes/HUD.tscn" id="6_joee4"]
+[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/blackboard.tscn" id="2_yyua3"]
+[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/platfrom.tscn" id="3_c0mjr"]
+[ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/floor.tscn" id="4_0o56b"]
+[ext_resource type="PackedScene" uid="uid://cpwxbpt5rr58f" path="res://Scenes/HUD.tscn" id="6_joee4"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_l1i7m")
