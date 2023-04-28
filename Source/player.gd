@@ -8,6 +8,7 @@ signal health_changed(is_player_1, new_health, max_health)
 @export var max_health = 100.0
 @export var punch_damage = 10.0
 @export var kick_damage = 20.0
+@export var punch_block_duration = 3
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
@@ -18,6 +19,7 @@ var _jump_time = 0
 var _is_jumping = false
 var _health = max_health
 var _is_facing_left = false
+var _is_punch_blocked = false
 
 # Controls
 var _move_left_action
@@ -38,8 +40,8 @@ func _ready():
 	_punch_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_punch")
 	_kick_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_kick")
 	_block_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_block")
-
-
+	
+	
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -65,16 +67,23 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
+		_change_facing_direction(direction)
 		velocity.x = direction * speed
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
 	
-	# Punch yourself to test the healthbar
 	if Input.is_action_just_pressed(_punch_action):
-		print("punching")
+		print("clicked button")
+		if _is_punch_blocked:
+			print("returning")
+			return
 		punch()
+			
+	if Input.is_action_just_pressed(_kick_action):
+		kick()
 
 func take_damage(damage):
 	_health -= damage
@@ -83,18 +92,31 @@ func take_damage(damage):
 	if _health <= 0:
 		queue_free()
 		
-func _activate_hit_area(is_facing_left):
+func _activate_hit_area(is_facing_left, damage):
 	if (is_facing_left):
-		$LeftHitArea.disabled = false
-		print("Left Area Enabled")
+		for body in $LeftHitArea.get_overlapping_bodies():
+			if body.has_method("take_damage") and body != self:
+				body.take_damage(damage)
 	else:
-		$RightHitArea.disabled = false
-		print("Right Area Enabled")
-	await get_tree().create_timer(10)
-	$LeftHitArea.disabled = true
-	$RightHitArea.disabled = true
-	print("Area disabled")
+		for body in $RightHitArea.get_overlapping_bodies():
+			if body.has_method("take_damage") and body != self:
+				body.take_damage(damage)
+
+func _change_facing_direction(direction):
+	if direction == 1:
+		_is_facing_left = false
+	else:
+		_is_facing_left = true
+
+func _reset_punch_block():
+	_is_punch_blocked = false
 
 func punch():
-	_activate_hit_area(_is_facing_left)
+	get_tree().create_timer(punch_block_duration).timeout.connect(_activate_hit_area(_is_facing_left, punch_damage))
+	_is_punch_blocked = true
+	print("its true")
+	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_punch_block)
+	
+func kick():
+	_activate_hit_area(_is_facing_left, kick_damage)
 

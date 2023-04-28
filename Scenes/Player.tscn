@@ -3,31 +3,17 @@
 [ext_resource type="Script" path="res://Source/player.gd" id="1_sm4am"]
 [ext_resource type="Texture2D" uid="uid://dfjjsyv623kyh" path="res://Assets/icon.svg" id="2_7s0hl"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_akgel"]
-radius = 48.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_81hmu"]
 radius = 45.0
 height = 128.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_akgel"]
+radius = 48.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 position = Vector2(374, -99)
 collision_layer = 2
 script = ExtResource("1_sm4am")
-
-[node name="LeftHitArea" type="CollisionShape2D" parent="."]
-light_mask = 0
-position = Vector2(-48, 0)
-shape = SubResource("CircleShape2D_akgel")
-debug_color = Color(0.627451, 0.529412, 0, 0.419608)
-metadata/_edit_lock_ = true
-
-[node name="RightHitArea" type="CollisionShape2D" parent="."]
-light_mask = 0
-position = Vector2(46, 0)
-shape = SubResource("CircleShape2D_akgel")
-debug_color = Color(0.831373, 0.341176, 0.501961, 0.419608)
-metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7s0hl")
@@ -35,4 +21,24 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_81hmu")
+metadata/_edit_lock_ = true
+
+[node name="LeftHitArea" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="LeftHitCollision" type="CollisionShape2D" parent="LeftHitArea"]
+light_mask = 0
+position = Vector2(-48, 0)
+shape = SubResource("CircleShape2D_akgel")
+debug_color = Color(0.627451, 0.529412, 0, 0.419608)
+metadata/_edit_lock_ = true
+
+[node name="RightHitArea" type="Area2D" parent="."]
+position = Vector2(46, 0)
+collision_mask = 3
+
+[node name="RightHitCollision" type="CollisionShape2D" parent="RightHitArea"]
+light_mask = 0
+shape = SubResource("CircleShape2D_akgel")
+debug_color = Color(0.831373, 0.341176, 0.501961, 0.419608)
 metadata/_edit_lock_ = true
