@@ -8,7 +8,10 @@ signal health_changed(is_player_1, new_health, max_health)
 @export var max_health = 100.0
 @export var punch_damage = 10.0
 @export var kick_damage = 20.0
-@export var punch_block_duration = 3
+@export var punch_block_duration = 0.5
+@export var punch_duration = 0.5
+@export var kick_block_duration = 1
+@export var kick_duration = 1
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
@@ -20,6 +23,7 @@ var _is_jumping = false
 var _health = max_health
 var _is_facing_left = false
 var _is_punch_blocked = false
+var _is_kick_blocked = false
 
 # Controls
 var _move_left_action
@@ -47,9 +51,6 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed(_punch_action):
-		punch()	
-
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
 		_is_jumping = true
@@ -76,14 +77,18 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	if Input.is_action_just_pressed(_punch_action):
-		print("clicked button")
+
 		if _is_punch_blocked:
-			print("returning")
 			return
-		punch()
+		_is_punch_blocked = true
+		get_tree().create_timer(punch_duration).timeout.connect(punch)
 			
 	if Input.is_action_just_pressed(_kick_action):
-		kick()
+
+		if _is_kick_blocked:
+			return
+		_is_kick_blocked = true
+		get_tree().create_timer(kick_duration).timeout.connect(kick)
 
 func take_damage(damage):
 	_health -= damage
@@ -110,13 +115,15 @@ func _change_facing_direction(direction):
 
 func _reset_punch_block():
 	_is_punch_blocked = false
+	
+func _reset_kick_block():
+	_is_kick_blocked = false
 
 func punch():
-	get_tree().create_timer(punch_block_duration).timeout.connect(_activate_hit_area(_is_facing_left, punch_damage))
-	_is_punch_blocked = true
-	print("its true")
+	_activate_hit_area(_is_facing_left, punch_damage)
 	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_punch_block)
 	
 func kick():
 	_activate_hit_area(_is_facing_left, kick_damage)
+	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_kick_block)
 
