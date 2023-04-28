@@ -17,6 +17,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _jump_time = 0
 var _is_jumping = false
 var _health = max_health
+var _is_facing_left = false
 
 # Controls
 var _move_left_action
@@ -30,6 +31,7 @@ func _ready():
 	_is_jumping = false
 	_jump_time = 0
 	_health = max_health
+	_is_facing_left = not get_meta("is_player_1")
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
 	_move_right_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_right")
 	_jump_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_jump")
@@ -37,10 +39,14 @@ func _ready():
 	_kick_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_kick")
 	_block_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_block")
 
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+	if Input.is_action_just_pressed(_punch_action):
+		punch()	
 
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
@@ -67,7 +73,8 @@ func _physics_process(delta):
 	
 	# Punch yourself to test the healthbar
 	if Input.is_action_just_pressed(_punch_action):
-		take_damage(punch_damage)
+		print("punching")
+		punch()
 
 func take_damage(damage):
 	_health -= damage
@@ -75,3 +82,19 @@ func take_damage(damage):
 	emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
 	if _health <= 0:
 		queue_free()
+		
+func _activate_hit_area(is_facing_left):
+	if (is_facing_left):
+		$LeftHitArea.disabled = false
+		print("Left Area Enabled")
+	else:
+		$RightHitArea.disabled = false
+		print("Right Area Enabled")
+	await get_tree().create_timer(10)
+	$LeftHitArea.disabled = true
+	$RightHitArea.disabled = true
+	print("Area disabled")
+
+func punch():
+	_activate_hit_area(_is_facing_left)
+
