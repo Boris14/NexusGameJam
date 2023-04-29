@@ -56,17 +56,26 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
+	
 	if _is_picking_up_glasses:
 		return
 
-	if not _is_movement_blocked and not _is_without_glasses:
+	# Handle Combat actions
+	if (not _is_movement_blocked and 
+		not _is_without_glasses and 
+		is_on_floor()):
 		if Input.is_action_just_pressed(_punch_action):
 			_is_movement_blocked = true
 			get_tree().create_timer(punch_duration).timeout.connect(_punch)
 		elif Input.is_action_just_pressed(_kick_action):
 			_is_movement_blocked = true
 			get_tree().create_timer(kick_duration).timeout.connect(_kick)
+
+	if Input.is_action_just_pressed(_punch_action) and _is_without_glasses:
+		emit_signal("tried_glasses_pickup", self)
+
+	if _is_movement_blocked:
+		return
 
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
@@ -81,9 +90,6 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
-	if _is_movement_blocked:
-		return
-
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
@@ -94,9 +100,6 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
-	
-	if Input.is_action_just_pressed(_punch_action) and _is_without_glasses:
-		emit_signal("tried_glasses_pickup", self)
 
 
 func take_damage(damage):
