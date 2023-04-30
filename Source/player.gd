@@ -4,6 +4,7 @@ signal health_changed(is_player_1, new_health, max_health)
 signal dropped_glasses(player)
 # When the player is without glasses and presses punch_action 
 signal tried_glasses_pickup(player)
+signal tried_start_solving(player)
 
 @export var speed = 300.0
 @export var max_jump_velocity = -800.0
@@ -38,6 +39,7 @@ var _jump_action
 var _punch_action
 var _kick_action
 var _block_action
+var _solve_action
 
 func _ready():
 	_is_jumping = false
@@ -51,6 +53,8 @@ func _ready():
 	_punch_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_punch")
 	_kick_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_kick")
 	_block_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_block")
+	_solve_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_solve")
+
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -71,8 +75,13 @@ func _physics_process(delta):
 			_is_movement_blocked = true
 			get_tree().create_timer(kick_duration).timeout.connect(_kick)
 
-	if Input.is_action_just_pressed(_punch_action) and _is_without_glasses:
+	if (Input.is_action_just_pressed(_punch_action) and 
+		_is_without_glasses and is_on_floor()):
 		emit_signal("tried_glasses_pickup", self)
+		
+	if (Input.is_action_just_pressed(_solve_action) and 
+		not _is_without_glasses and is_on_floor()):
+		emit_signal("tried_start_solving", self)
 
 	if _is_movement_blocked:
 		return
@@ -83,10 +92,8 @@ func _physics_process(delta):
 	elif Input.is_action_just_released(_jump_action):
 		_is_jumping = false
 		_jump_time = 0
-	if (
-		_is_jumping and Input.is_action_pressed(_jump_action) 
-		and _jump_time < max_jump_hold_time
-	):
+	if (_is_jumping and Input.is_action_pressed(_jump_action) 
+		and _jump_time < max_jump_hold_time):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
@@ -111,13 +118,13 @@ func take_damage(damage):
 		_is_without_glasses = true
 		emit_signal("dropped_glasses", self)
 		
+		
 func _on_started_glasses_pickup(pickup_time):
 	_is_picking_up_glasses = true
 	await get_tree().create_timer(pickup_time).timeout
 	take_damage(-max_health)
 	_is_picking_up_glasses = false
 	_is_without_glasses = false
-	
 	
 
 func _activate_hit_area(is_facing_left, damage, is_kick):
@@ -131,18 +138,22 @@ func _activate_hit_area(is_facing_left, damage, is_kick):
 		if body.has_method("take_damage") and body != self:
 			body.take_damage(damage)
 
+
 func _change_facing_direction(direction):
 	if direction == 1:
 		_is_facing_left = false
 	else:
 		_is_facing_left = true
 
+
 func _reset_movement():
 	_is_movement_blocked = false
+
 
 func _punch():
 	_activate_hit_area(_is_facing_left, punch_damage, false)
 	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
+
 
 func _kick():
 	_activate_hit_area(_is_facing_left, kick_damage, true)

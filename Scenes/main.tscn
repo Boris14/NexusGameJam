@@ -1,40 +1,51 @@
-[gd_scene load_steps=6 format=3 uid="uid://7lqh0eq0nqb3"]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://Source/main.gd" id="1_l1i7m"]
-[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/blackboard.tscn" id="2_yyua3"]
-[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/platfrom.tscn" id="3_c0mjr"]
+[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/Blackboard.tscn" id="2_yyua3"]
+[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/Platfrom.tscn" id="3_c0mjr"]
 [ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/Floor.tscn" id="4_0o56b"]
-[ext_resource type="PackedScene" uid="uid://cpwxbpt5rr58f" path="res://Scenes/HUD.tscn" id="6_joee4"]
+[ext_resource type="PackedScene" uid="uid://ymi2tu1ay0ys" path="res://Scenes/UI/TaskSolver.tscn" id="6_dxuy2"]
+[ext_resource type="PackedScene" uid="uid://dfefb7wjmqox3" path="res://Scenes/UI/HUD.tscn" id="6_joee4"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_l1i7m")
 
 [node name="Blackboard" parent="." instance=ExtResource("2_yyua3")]
-position = Vector2(600, 208)
-scale = Vector2(3.68, 1.8059)
+position = Vector2(496, 200)
+scale = Vector2(3, 1.263)
 
 [node name="Platform" parent="." instance=ExtResource("3_c0mjr")]
-position = Vector2(600, 416)
-scale = Vector2(3.20781, 0.770268)
+position = Vector2(504, 360)
+scale = Vector2(2.5, 0.6)
 
 [node name="Floor" parent="." instance=ExtResource("4_0o56b")]
-position = Vector2(584, 724)
-scale = Vector2(6.28, 2.76)
+position = Vector2(456, 632)
+scale = Vector2(6, 2.637)
 
 [node name="RightWall" parent="." instance=ExtResource("4_0o56b")]
-position = Vector2(1312, 240)
+position = Vector2(1120, -120)
 rotation = 1.5708
 scale = Vector2(5.41458, 2.15633)
 
 [node name="LeftWall" parent="." instance=ExtResource("4_0o56b")]
-position = Vector2(-72, 184)
+position = Vector2(-72, 24)
 rotation = 1.5708
 scale = Vector2(4.72, 1)
 
 [node name="HUD" parent="." instance=ExtResource("6_joee4")]
 
 [node name="Player1StartPosition" type="Node2D" parent="."]
-position = Vector2(120, 432)
+position = Vector2(112, 344)
 
 [node name="Player2StartPosition" type="Node2D" parent="."]
-position = Vector2(1064, 432)
+position = Vector2(872, 336)
+
+[node name="Player1TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
+offset_left = 32.0
+offset_right = 432.0
+scale = Vector2(0.5, 0.5)
+
+[node name="Player2TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
+offset_left = -192.0
+offset_right = 208.0
+scale = Vector2(0.5, 0.5)

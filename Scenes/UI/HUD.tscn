@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpwxbpt5rr58f"]
+[gd_scene load_steps=4 format=3 uid="uid://dfefb7wjmqox3"]
 
-[ext_resource type="Script" path="res://Source/hud.gd" id="1_r0twu"]
+[ext_resource type="Script" path="res://Source/UI/hud.gd" id="1_r0twu"]
 [ext_resource type="Texture2D" uid="uid://c1jm8c203ndde" path="res://Assets/healthbar_background.png" id="2_cngoe"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mcdoc"]

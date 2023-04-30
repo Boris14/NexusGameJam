@@ -15,6 +15,7 @@ radius = 18.0
 height = 118.808
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 1
 position = Vector2(374, -99)
 collision_layer = 2
 script = ExtResource("1_sm4am")

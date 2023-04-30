@@ -4,7 +4,7 @@ signal started_glasses_pickup(pickup_time)
 
 @export var max_pickup_time = 4
 
-const PickupBar = preload("res://Source/pickup_bar.gd")
+const PickupBar = preload("res://Source/UI/pickup_bar.gd")
 
 var player_owner
 var _pickup_bar

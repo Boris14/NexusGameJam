@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bn1560vajk0xf"]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://Source/glasses.gd" id="1_b3lsb"]
 [ext_resource type="Texture2D" uid="uid://bsymgvauqdaoc" path="res://Assets/glasses.png" id="2_snxu0"]
-[ext_resource type="PackedScene" uid="uid://d1pq534yq2rjx" path="res://Scenes/PickupBar.tscn" id="3_eu3nf"]
+[ext_resource type="PackedScene" uid="uid://d1pq534yq2rjx" path="res://Scenes/UI/PickupBar.tscn" id="3_eu3nf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cthke"]
 size = Vector2(80, 48)
