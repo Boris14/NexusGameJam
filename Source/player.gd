@@ -40,8 +40,10 @@ var _punch_action
 var _kick_action
 var _block_action
 var _solve_action
+var _state_machine
 
 func _ready():
+	_state_machine = $AnimationTree.get("parameters/playback")
 	_is_jumping = false
 	_is_without_glasses = false
 	_is_facing_left = not get_meta("is_player_1")
@@ -54,6 +56,9 @@ func _ready():
 	_kick_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_kick")
 	_block_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_block")
 	_solve_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_solve")
+	
+	if not get_meta("is_player_1"): # initial flip
+		get_node("Sprite2D").set_flip_h(true)
 
 
 func _physics_process(delta):
@@ -97,13 +102,19 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
+	if _is_jumping:
+		_state_machine.travel("jumping")
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
+		if not _is_jumping:
+			_state_machine.travel("walking")
 		_change_facing_direction(direction)
 		velocity.x = direction * speed
 	else:
+		if not _is_jumping:
+			_state_machine.travel("idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
@@ -141,9 +152,11 @@ func _activate_hit_area(is_facing_left, damage, is_kick):
 
 func _change_facing_direction(direction):
 	if direction == 1:
+		get_node("Sprite2D").set_flip_h(false)
 		_is_facing_left = false
 	else:
 		_is_facing_left = true
+		get_node("Sprite2D").set_flip_h(true)
 
 
 func _reset_movement():
