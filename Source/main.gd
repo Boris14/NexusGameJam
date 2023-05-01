@@ -17,7 +17,10 @@ var blackboard : Blackboard
 func _ready():
 	player_1_task_solver = $Player1TaskSolver as TaskSolver
 	player_2_task_solver = $Player2TaskSolver as TaskSolver
+	player_1_task_solver.set_is_player_1(true)
+	player_2_task_solver.set_is_player_1(false)
 	blackboard = $Blackboard as Blackboard
+	blackboard.connect("started_solving", _on_player_started_solving)
 	_spawn_player(true)
 	_spawn_player(false)
 
@@ -34,7 +37,6 @@ func _spawn_player(is_player_1):
 	player.connect("health_changed", ($HUD as HUD)._on_player_health_changed)
 	player.connect("dropped_glasses", _on_player_dropped_glasses)
 	player.connect("tried_start_solving", blackboard._on_player_tried_start_solving)
-	blackboard.connect("started_solving", _on_player_started_solving)
 	add_child(player)
 	
 	

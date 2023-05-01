@@ -9,7 +9,6 @@ const PickupBar = preload("res://Source/UI/pickup_bar.gd")
 var player_owner
 var _pickup_bar
 var _is_touching_owner = false
-var _pick_action
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://be6aucgi5intg"]
+[gd_scene load_steps=5 format=3 uid="uid://be6aucgi5intg"]
 
 [ext_resource type="Texture2D" uid="uid://dn3bgrjwecf37" path="res://Assets/blackboard.png" id="1_2l5ae"]
 [ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
+[ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="3_5258c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
 size = Vector2(144, 144)
@@ -14,6 +15,12 @@ script = ExtResource("1_wfx12")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_2l5ae")
+
+[node name="Outline" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.90735e-06, 3.8147e-06)
+scale = Vector2(0.650718, 2)
+texture = ExtResource("3_5258c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5d0n7")

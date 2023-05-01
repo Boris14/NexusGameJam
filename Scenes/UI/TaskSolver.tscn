@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ymi2tu1ay0ys"]
 
-[ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="1_fhs2v"]
 [ext_resource type="Script" path="res://Source/UI/task_solver.gd" id="1_wemgo"]
+[ext_resource type="Texture2D" uid="uid://c1jm8c203ndde" path="res://Assets/healthbar_background.png" id="2_t5hef"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kupd0"]
 font_size = 50
@@ -21,7 +21,6 @@ grow_vertical = 2
 script = ExtResource("1_wemgo")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,10 +30,8 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="Slide1" type="TextureRect" parent="VBoxContainer"]
-z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("1_fhs2v")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide1"]
@@ -43,31 +40,50 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 100.0
 offset_top = -50.0
-offset_right = 100.0
+offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("1_fhs2v")
+texture = ExtResource("2_t5hef")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Slide1/HitBox"]
+[node name="Player2Label" type="Label" parent="VBoxContainer/Slide1"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -36.0
+offset_right = -32.0
+offset_bottom = 36.0
 grow_vertical = 2
 text = "T"
 label_settings = SubResource("LabelSettings_kupd0")
-horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Player1Label" type="Label" parent="VBoxContainer/Slide1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -36.0
+offset_right = 58.0
+offset_bottom = 36.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "T"
+label_settings = SubResource("LabelSettings_kupd0")
 vertical_alignment = 1
 uppercase = true
 
 [node name="Slide2" type="TextureRect" parent="VBoxContainer"]
-z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("1_fhs2v")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide2"]
@@ -76,19 +92,42 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 100.0
 offset_top = -50.0
-offset_right = 100.0
+offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("1_fhs2v")
+texture = ExtResource("2_t5hef")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Slide2/HitBox"]
+[node name="Player2Label" type="Label" parent="VBoxContainer/Slide2"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -36.0
+offset_right = -30.0
+offset_bottom = 36.0
+grow_vertical = 2
+text = "Y"
+label_settings = SubResource("LabelSettings_kupd0")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Player1Label" type="Label" parent="VBoxContainer/Slide2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -36.0
+offset_right = 60.0
+offset_bottom = 36.0
+grow_horizontal = 0
 grow_vertical = 2
 text = "Y"
 label_settings = SubResource("LabelSettings_kupd0")
@@ -97,10 +136,8 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="Slide3" type="TextureRect" parent="VBoxContainer"]
-z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("1_fhs2v")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide3"]
@@ -109,19 +146,42 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 100.0
 offset_top = -50.0
-offset_right = 100.0
+offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("1_fhs2v")
+texture = ExtResource("2_t5hef")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Slide3/HitBox"]
+[node name="Player2Label" type="Label" parent="VBoxContainer/Slide3"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -36.0
+offset_right = -23.0
+offset_bottom = 36.0
+grow_vertical = 2
+text = "U"
+label_settings = SubResource("LabelSettings_kupd0")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Player1Label" type="Label" parent="VBoxContainer/Slide3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -36.0
+offset_right = 67.0
+offset_bottom = 36.0
+grow_horizontal = 0
 grow_vertical = 2
 text = "U"
 label_settings = SubResource("LabelSettings_kupd0")
