@@ -12,10 +12,10 @@ signal tried_start_solving(player)
 @export var max_health = 100.0
 @export var punch_damage = 10.0
 @export var kick_damage = 20.0
-@export var punch_block_duration = 0.5
-@export var punch_duration = 0.5
-@export var kick_block_duration = 1
-@export var kick_duration = 1
+@export var punch_block_duration = 0.2
+@export var punch_duration = 0.3
+@export var kick_block_duration = 0.6
+@export var kick_duration = 0.4
 @export var blocking_attacks_duration = 1
 @export var block_coef = 0.33
 
@@ -79,11 +79,14 @@ func _physics_process(delta):
 		is_on_floor()):
 		if Input.is_action_just_pressed(_punch_action):
 			_is_movement_blocked = true
+			_state_machine.travel("punching")
 			get_tree().create_timer(punch_duration).timeout.connect(_punch)
 		elif Input.is_action_just_pressed(_kick_action):
 			_is_movement_blocked = true
+			_state_machine.travel("kicking")
 			get_tree().create_timer(kick_duration).timeout.connect(_kick)
 		if Input.is_action_pressed(_block_action):
+			_state_machine.travel("block")
 			_is_movement_blocked = true
 			_is_blocking_attacks = true
 	if Input.is_action_just_released(_block_action):
@@ -176,6 +179,7 @@ func _reset_movement():
 func _reset_block():
 	_is_blocking_attacks = false
 	_reset_movement()
+	
 	
 	
 func _punch():

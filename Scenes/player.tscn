@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cga5x1i7j17iw"]
+[gd_scene load_steps=33 format=3 uid="uid://cga5x1i7j17iw"]
 
 [ext_resource type="Script" path="res://Source/player.gd" id="1_sm4am"]
 [ext_resource type="Texture2D" uid="uid://dbjcgxao71mde" path="res://Assets/PlayerSprites/everything-Sheet.png" id="2_mhejs"]
@@ -8,11 +8,11 @@ radius = 11.0
 height = 58.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_akgel"]
-radius = 16.0312
+radius = 10.3548
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhct1"]
-radius = 9.71765
-height = 65.9665
+radius = 3.32869
+height = 47.1966
 
 [sub_resource type="Animation" id="Animation_wkwtc"]
 length = 0.001
@@ -80,19 +80,81 @@ tracks/0/keys = {
 "values": [11, 12, 13, 14, 15, 16]
 }
 
+[sub_resource type="Animation" id="Animation_3qkyp"]
+resource_name = "kicking"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [38, 39, 40, 41, 42]
+}
+
+[sub_resource type="Animation" id="Animation_rkkvd"]
+resource_name = "punching"
+length = 0.5
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [32, 33, 34, 35, 36, 32]
+}
+
+[sub_resource type="Animation" id="Animation_nt835"]
+resource_name = "block"
+length = 0.3
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [42, 43]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fxyfk"]
 _data = {
 "RESET": SubResource("Animation_wkwtc"),
+"block": SubResource("Animation_nt835"),
 "idle": SubResource("Animation_qfugc"),
 "jumping": SubResource("Animation_27138"),
+"kicking": SubResource("Animation_3qkyp"),
+"punching": SubResource("Animation_rkkvd"),
 "walking": SubResource("Animation_i5jcj")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4sfr7"]
+animation = &"block"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0arqx"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lk5pe"]
 animation = &"jumping"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a053p"]
+animation = &"kicking"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a7o31"]
+animation = &"punching"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_886qf"]
 animation = &"walking"
@@ -113,16 +175,43 @@ advance_mode = 0
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0ncbq"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_507wj"]
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3a8an"]
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2xawk"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6qaxi"]
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_035nd"]
+advance_mode = 0
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_eg76n"]
 states/End/position = Vector2(940, 101)
-states/Start/position = Vector2(89, 84)
+states/Start/position = Vector2(-106, 101)
+states/block/node = SubResource("AnimationNodeAnimation_4sfr7")
+states/block/position = Vector2(528.92, 145)
 states/idle/node = SubResource("AnimationNodeAnimation_0arqx")
-states/idle/position = Vector2(292, 56)
+states/idle/position = Vector2(142, 91)
 states/jumping/node = SubResource("AnimationNodeAnimation_lk5pe")
-states/jumping/position = Vector2(283, 163)
+states/jumping/position = Vector2(-19, 200)
+states/kicking/node = SubResource("AnimationNodeAnimation_a053p")
+states/kicking/position = Vector2(647, 73)
+states/punching/node = SubResource("AnimationNodeAnimation_a7o31")
+states/punching/position = Vector2(379.92, 185)
 states/walking/node = SubResource("AnimationNodeAnimation_886qf")
-states/walking/position = Vector2(528, 94)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0713r"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_dqcdq"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_nmntq"), "idle", "jumping", SubResource("AnimationNodeStateMachineTransition_ci1lg"), "jumping", "idle", SubResource("AnimationNodeStateMachineTransition_4r2nu")]
+states/walking/position = Vector2(142, 206)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0713r"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_dqcdq"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_nmntq"), "idle", "jumping", SubResource("AnimationNodeStateMachineTransition_ci1lg"), "jumping", "idle", SubResource("AnimationNodeStateMachineTransition_4r2nu"), "kicking", "idle", SubResource("AnimationNodeStateMachineTransition_0ncbq"), "idle", "kicking", SubResource("AnimationNodeStateMachineTransition_507wj"), "idle", "punching", SubResource("AnimationNodeStateMachineTransition_3a8an"), "punching", "idle", SubResource("AnimationNodeStateMachineTransition_2xawk"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_6qaxi"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_035nd")]
+graph_offset = Vector2(-182.08, 0)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_7l8sr"]
 
@@ -134,11 +223,11 @@ collision_layer = 2
 script = ExtResource("1_sm4am")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1.66667, -27.3333)
+position = Vector2(0.666666, -17)
 scale = Vector2(1.01667, 0.994047)
 texture = ExtResource("2_mhejs")
-hframes = 6
-vframes = 6
+hframes = 7
+vframes = 7
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -152,7 +241,7 @@ metadata/_edit_lock_ = true
 
 [node name="LeftHitCollision" type="CollisionShape2D" parent="LeftPunchArea"]
 light_mask = 0
-position = Vector2(-17, -6)
+position = Vector2(-18.6667, -7)
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.627451, 0.529412, 0, 0.419608)
 metadata/_edit_lock_ = true
@@ -164,7 +253,7 @@ metadata/_edit_lock_ = true
 
 [node name="RightHitCollision" type="CollisionShape2D" parent="RightPunchArea"]
 light_mask = 0
-position = Vector2(-31, -6)
+position = Vector2(-27.3333, -6.66667)
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.831373, 0.341176, 0.501961, 0.419608)
 metadata/_edit_lock_ = true
@@ -174,8 +263,8 @@ collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftKickArea"]
-position = Vector2(-31, -3)
-rotation = -1.31598
+position = Vector2(-18, -10.6667)
+rotation = -1.07687
 shape = SubResource("CapsuleShape2D_qhct1")
 debug_color = Color(0.788235, 0.431373, 0, 0.419608)
 metadata/_edit_lock_ = true
@@ -185,8 +274,8 @@ collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightKickArea"]
-position = Vector2(32, -3)
-rotation = 1.31598
+position = Vector2(18.3333, -9.33333)
+rotation = 4.13643
 shape = SubResource("CapsuleShape2D_qhct1")
 debug_color = Color(0.960784, 0, 0.701961, 0.419608)
 metadata/_edit_lock_ = true
