@@ -2,11 +2,16 @@ extends Panel
 
 const TaskLineScene = preload("res://Scenes/UI/TaskLine.tscn")
 
+signal line_hit()
+signal line_missed()
+
 @export var initial_line_spawn_interval = 2
-@export var initial_line_speed = 60
-@export var line_spawn_increase_rate = 0.02
-@export var line_speed_increase_rate = 0.1
-@export var hitbox_error = 13
+@export var initial_line_speed = 90
+@export var min_line_spawn_interval = 0.6
+@export var max_line_speed = 170
+@export var hit_spawn_interval_decrease = 0.94
+@export var hit_speed_increase = 1.12
+@export var hitbox_error = 15
 
 var _rand = RandomNumberGenerator.new()
 var _slides = []
@@ -28,22 +33,29 @@ func _ready():
 func _process(delta):
 	if not visible:
 		return 
-	
-	for i in len(_slide_actions):
-		if Input.is_action_just_pressed(_slide_actions[i]):
-			for line in _lines:
-				if (line.owner == _slides[i] and
-					abs(line.position.x - _hitbox_x) <= hitbox_error):
-					_lines.erase(line)
-					line.queue_free()
 					
 	for line in _lines:
 		line.position.x -= delta * _line_speed
 		if line.position.x <= 0:
 			_lines.erase(line)
 			line.queue_free()
-	_line_spawn_interval -= delta * line_spawn_increase_rate
-	_line_speed += delta * line_speed_increase_rate
+
+	for i in len(_slide_actions):
+		if Input.is_action_just_pressed(_slide_actions[i]):
+			var hit = false
+			for line in _lines:
+				if (line.owner == _slides[i] and
+					abs(line.position.x - _hitbox_x) <= hitbox_error):
+					hit = true
+					_lines.erase(line)
+					line.queue_free()
+					_line_speed = clamp(_line_speed * hit_speed_increase, 0, max_line_speed)
+					_line_spawn_interval = clamp(_line_spawn_interval * hit_spawn_interval_decrease, min_line_spawn_interval, initial_line_spawn_interval)
+					emit_signal("line_hit")
+			if not hit and len(_lines) > 0:
+				_line_speed = initial_line_speed
+				_line_spawn_interval = initial_line_spawn_interval
+				emit_signal("line_missed")
 	
 	
 func _spawn_line():
@@ -71,13 +83,16 @@ func set_is_player_1(in_is_player_1):
 		var otherLabelName = str("Player" + ("2" if _is_player_1 else "1") + "Label")
 		_slides[i].find_child(otherLabelName, false).visible = false
 
-func start_solving():
+func _on_player_started_solving(is_player_1, position_x):
+	if _is_player_1 != is_player_1:
+		return
+
 	visible = true
 	_line_spawn_interval = initial_line_spawn_interval
 	_line_speed = initial_line_speed
 	get_tree().create_timer(_line_spawn_interval).timeout.connect(_spawn_line)
 	
-func stop_solving():
+func _on_player_stopped_solving(is_player_1):
 	for node in _lines:
 		node.queue_free()
 		_lines.erase(node)

@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://ymi2tu1ay0ys"]
+[gd_scene load_steps=7 format=3 uid="uid://ymi2tu1ay0ys"]
 
 [ext_resource type="Script" path="res://Source/UI/task_solver.gd" id="1_wemgo"]
-[ext_resource type="Texture2D" uid="uid://c1jm8c203ndde" path="res://Assets/healthbar_background.png" id="2_t5hef"]
+[ext_resource type="Texture2D" uid="uid://iu5juvgjc1w6" path="res://Assets/background, UI-UX, assets/guitar hero/first row.png" id="2_3wtc7"]
+[ext_resource type="Texture2D" uid="uid://sgqxmche51tw" path="res://Assets/background, UI-UX, assets/guitar hero/skeleton.png" id="2_8o1l0"]
+[ext_resource type="Texture2D" uid="uid://c3lknmrqu27it" path="res://Assets/background, UI-UX, assets/guitar hero/second row.png" id="3_dcsvb"]
+[ext_resource type="Texture2D" uid="uid://btvmc1en1c4v4" path="res://Assets/background, UI-UX, assets/guitar hero/third row.png" id="4_tt6aq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kupd0"]
 font_size = 50
@@ -32,6 +35,18 @@ metadata/_edit_lock_ = true
 [node name="Slide1" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Slide1"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_3wtc7")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide1"]
@@ -45,7 +60,6 @@ offset_top = -50.0
 offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("2_t5hef")
 expand_mode = 1
 
 [node name="Player2Label" type="Label" parent="VBoxContainer/Slide1"]
@@ -84,6 +98,18 @@ uppercase = true
 [node name="Slide2" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Slide2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_dcsvb")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide2"]
@@ -97,7 +123,6 @@ offset_top = -50.0
 offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("2_t5hef")
 expand_mode = 1
 
 [node name="Player2Label" type="Label" parent="VBoxContainer/Slide2"]
@@ -138,6 +163,18 @@ uppercase = true
 [node name="Slide3" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Slide3"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -19.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_tt6aq")
 expand_mode = 1
 
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide3"]
@@ -151,7 +188,6 @@ offset_top = -50.0
 offset_right = 125.0
 offset_bottom = 50.0
 grow_vertical = 2
-texture = ExtResource("2_t5hef")
 expand_mode = 1
 
 [node name="Player2Label" type="Label" parent="VBoxContainer/Slide3"]
@@ -188,3 +224,13 @@ label_settings = SubResource("LabelSettings_kupd0")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8o1l0")
