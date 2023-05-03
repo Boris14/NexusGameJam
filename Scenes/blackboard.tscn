@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://be6aucgi5intg"]
 
-[ext_resource type="Texture2D" uid="uid://dn3bgrjwecf37" path="res://Assets/blackboard.png" id="1_2l5ae"]
 [ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
+[ext_resource type="Texture2D" uid="uid://cv1vqxku4ybye" path="res://Assets/background, UI-UX, assets/blackboard.png" id="2_boijq"]
 [ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="3_5258c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
-size = Vector2(144, 144)
+size = Vector2(145.684, 144)
 
 [node name="Blackboard" type="Area2D"]
 scale = Vector2(3.8, 1.6)
@@ -14,7 +14,9 @@ collision_mask = 2
 script = ExtResource("1_wfx12")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_2l5ae")
+position = Vector2(1.05263, 2.5)
+scale = Vector2(1.52909, 3.625)
+texture = ExtResource("2_boijq")
 
 [node name="Outline" type="Sprite2D" parent="."]
 visible = false
@@ -23,4 +25,5 @@ scale = Vector2(0.650718, 2)
 texture = ExtResource("3_5258c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.842106, 0)
 shape = SubResource("RectangleShape2D_5d0n7")
