@@ -7,7 +7,7 @@ const TaskSolver = preload("res://Source/UI/task_solver.gd")
 const Blackboard = preload("res://Source/blackboard.gd")
 const Platform = preload("res://Source/platform.gd")
 
-const PlayerScene = preload("res://Scenes/Player.tscn")
+const PlayerScene = preload("res://Scenes/player.tscn")
 const GlassesScene = preload("res://Scenes/Glasses.tscn")
 
 var player_1_task_solver : TaskSolver
