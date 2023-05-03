@@ -107,6 +107,8 @@ func _physics_process(delta):
 	if (Input.is_action_just_pressed(_solve_action) and 
 		not _is_without_glasses and is_on_floor()):
 		emit_signal("tried_start_solving", self)
+		_state_machine.travel("writing_up")
+		##here check which stage of writting and chose from "writting_up" or "writting_down"
 
 	if _is_movement_blocked:
 		return
@@ -132,13 +134,13 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
-		if not _is_jumping:
-			_state_machine.travel("walking")
+		if not _is_jumping and not _is_solving:
+			_state_machine.travel("walking" if not _is_without_glasses else "crawling")
 		_change_facing_direction(direction)
 		velocity.x = direction * _speed
 	else:
-		if not _is_jumping:
-			_state_machine.travel("idle")
+		if not _is_jumping and not _is_solving:
+			_state_machine.travel("idle" if not _is_without_glasses else "crawling_idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
@@ -226,3 +228,4 @@ func _on_line_hit():
 	_solve_score += 1
 	if _solve_score >= max_solve_score:
 		pass # Win Game
+		
