@@ -16,7 +16,8 @@ signal tried_start_solving(player)
 @export var punch_duration = 0.5
 @export var kick_block_duration = 1
 @export var kick_duration = 1
-@export var blocking_attacks_duration = 3
+@export var blocking_attacks_duration = 1
+@export var block_coef = 0.33
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
@@ -83,14 +84,13 @@ func _physics_process(delta):
 			_is_movement_blocked = true
 			get_tree().create_timer(kick_duration).timeout.connect(_kick)
 		if Input.is_action_pressed(_block_action):
-			if _can_block_attacks:
-				_is_blocking_attacks = true
-			get_tree().create_timer(blocking_attacks_duration).timeout.connect(_reset_block)
-		if Input.is_action_just_released(_block_action):
-			_is_blocking_attacks = false
+			_is_movement_blocked = true
+			_is_blocking_attacks = true
+	if Input.is_action_just_released(_block_action):
+		_is_movement_blocked = false
+		_is_blocking_attacks = false
 			
 			
-
 	if (Input.is_action_just_pressed(_punch_action) and 
 		_is_without_glasses and is_on_floor()):
 		emit_signal("tried_glasses_pickup", self)
@@ -132,8 +132,7 @@ func _physics_process(delta):
 
 
 func take_damage(damage):
-	if not _is_blocking_attacks:
-		_health -= damage
+		_health -= damage if not _is_blocking_attacks else block_coef * damage
 		_health = clamp(_health, 0, max_health)
 		emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
 		if _health <= 0:
@@ -176,11 +175,13 @@ func _reset_movement():
 	
 func _reset_block():
 	_is_blocking_attacks = false
-
-
+	_reset_movement()
+	
+	
 func _punch():
 	_activate_hit_area(_is_facing_left, punch_damage, false)
 	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
+	
 
 
 func _kick():
