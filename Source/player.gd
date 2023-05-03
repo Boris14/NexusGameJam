@@ -16,6 +16,7 @@ signal tried_start_solving(player)
 @export var punch_duration = 0.5
 @export var kick_block_duration = 1
 @export var kick_duration = 1
+@export var blocking_attacks_duration = 3
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
 const JUMP_FORCE = 20 
@@ -26,6 +27,7 @@ var _is_without_glasses = false
 var _is_picking_up_glasses = false
 var _is_facing_left = false
 var _is_movement_blocked = false
+var _is_blocking_attacks
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -44,6 +46,7 @@ var _state_machine
 
 func _ready():
 	_state_machine = $AnimationTree.get("parameters/playback")
+	_is_blocking_attacks = false
 	_is_jumping = false
 	_is_without_glasses = false
 	_is_facing_left = not get_meta("is_player_1")
@@ -79,6 +82,14 @@ func _physics_process(delta):
 		elif Input.is_action_just_pressed(_kick_action):
 			_is_movement_blocked = true
 			get_tree().create_timer(kick_duration).timeout.connect(_kick)
+		if Input.is_action_pressed(_block_action):
+			if _can_block_attacks:
+				_is_blocking_attacks = true
+			get_tree().create_timer(blocking_attacks_duration).timeout.connect(_reset_block)
+		if Input.is_action_just_released(_block_action):
+			_is_blocking_attacks = false
+			
+			
 
 	if (Input.is_action_just_pressed(_punch_action) and 
 		_is_without_glasses and is_on_floor()):
@@ -121,13 +132,14 @@ func _physics_process(delta):
 
 
 func take_damage(damage):
-	_health -= damage
-	_health = clamp(_health, 0, max_health)
-	emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
-	if _health <= 0:
-		# Drops glasses
-		_is_without_glasses = true
-		emit_signal("dropped_glasses", self)
+	if not _is_blocking_attacks:
+		_health -= damage
+		_health = clamp(_health, 0, max_health)
+		emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
+		if _health <= 0:
+			# Drops glasses
+			_is_without_glasses = true
+			emit_signal("dropped_glasses", self)
 		
 		
 func _on_started_glasses_pickup(pickup_time):
@@ -161,6 +173,9 @@ func _change_facing_direction(direction):
 
 func _reset_movement():
 	_is_movement_blocked = false
+	
+func _reset_block():
+	_is_blocking_attacks = false
 
 
 func _punch():
