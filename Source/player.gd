@@ -15,7 +15,7 @@ signal changed_solve_score(is_player_1, solve_score, max_solve_score)
 @export var max_health = 100.0
 @export var max_solve_score = 50
 @export var punch_damage = 10.0
-@export var kick_damage = 100.0
+@export var kick_damage = 20.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
 @export var kick_block_duration = 0.6
@@ -35,6 +35,7 @@ var _is_facing_left = false
 var _is_movement_blocked = false
 var _is_solving = false
 var _is_blocking_attacks
+var _is_knocked_back = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -119,8 +120,6 @@ func _physics_process(delta):
 		not _is_without_glasses and is_on_floor() and 
 		not _is_solving):
 		emit_signal("tried_start_solving", self)
-		_state_machine.travel("writing_up")
-		##here check which stage of writting and chose from "writting_up" or "writting_down"
 
 	if _is_movement_blocked:
 		return
@@ -140,6 +139,9 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
+	if _is_knocked_back:
+		move_and_slide()
+		return
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
@@ -164,7 +166,17 @@ func take_damage(damage):
 			# Drops glasses
 			_is_without_glasses = true
 			emit_signal("dropped_glasses", self)
-	
+
+
+func apply_knockback(is_to_the_left, damage):
+	var knockback = 300 + damage * 30
+	if is_to_the_left:
+		velocity.x -= knockback
+	else:
+		velocity.x += knockback
+	_is_knocked_back = true
+	await get_tree().create_timer(0.1).timeout
+	_is_knocked_back = false
 		
 func _on_started_glasses_pickup(pickup_time):
 	_is_picking_up_glasses = true
@@ -187,6 +199,7 @@ func _activate_hit_area(is_facing_left, damage, is_kick):
 	for body in HitArea.get_overlapping_bodies():
 		if body.has_method("take_damage") and body != self:
 			body.take_damage(damage)
+			body.apply_knockback(is_facing_left, damage)
 
 
 func _change_facing_direction(direction):
@@ -201,17 +214,16 @@ func _change_facing_direction(direction):
 func _reset_movement():
 	_is_movement_blocked = false
 	
+	
 func _reset_block():
 	_is_blocking_attacks = false
 	_reset_movement()
-	
 	
 	
 func _punch():
 	_activate_hit_area(_is_facing_left, punch_damage, false)
 	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
 	
-
 
 func _kick():
 	_activate_hit_area(_is_facing_left, kick_damage, true)
@@ -225,7 +237,10 @@ func _on_started_solving(is_player_1, pos):
 	_is_solving = true
 	velocity - Vector2(0, 0)
 	position = pos
-	# Switch to solve animation state
+	if float(_solve_score) / max_solve_score < 0.6:
+		_state_machine.travel("writing_up")
+	else:
+		_state_machine.travel("writing_down")
 	
 
 func _on_stopped_solving(is_player_1):
@@ -242,4 +257,4 @@ func _on_line_hit():
 	emit_signal("changed_solve_score", get_meta("is_player_1"), _solve_score, max_solve_score)
 	if _solve_score >= max_solve_score:
 		pass # Win Game
-		
+	
