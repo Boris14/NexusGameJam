@@ -1,16 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfbwcptx5w4c3"]
+[gd_scene load_steps=5 format=3 uid="uid://bfbwcptx5w4c3"]
 
 [ext_resource type="Script" path="res://Source/UI/healthbar.gd" id="1_30qjs"]
-[ext_resource type="Texture2D" uid="uid://eedb6ndfpa81" path="res://Assets/background, UI-UX, assets/avatar border.png" id="1_ejg04"]
-[ext_resource type="Texture2D" uid="uid://olf80fxrwsw1" path="res://Assets/background, UI-UX, assets/HP bar - emptyt.png" id="2_dswd2"]
-[ext_resource type="Texture2D" uid="uid://c5sychgnek82h" path="res://Assets/background, UI-UX, assets/first avatar.png" id="2_p78yu"]
-[ext_resource type="Texture2D" uid="uid://cywthr7470b1i" path="res://Assets/background, UI-UX, assets/HP bar - full.png" id="4_t52rq"]
+[ext_resource type="Texture2D" uid="uid://bux8c8v3knphp" path="res://Assets/SVG/avatar bordert.svg" id="2_4yk4i"]
+[ext_resource type="Texture2D" uid="uid://ds48rdssrhgwb" path="res://Assets/SVG/HP bar emptyt.svg" id="3_ic81f"]
+[ext_resource type="Texture2D" uid="uid://dj8fefki36pnx" path="res://Assets/SVG/HP bart.svg" id="4_doas8"]
 
 [node name="Healthbar" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = 14.0
+offset_right = -171.0
+offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_30qjs")
@@ -24,28 +27,21 @@ border_width = 0.0
 
 [node name="AvatarBox" type="TextureRect" parent="ReferenceRect"]
 layout_mode = 1
-offset_right = 15.0
-offset_bottom = 15.0
-texture = ExtResource("1_ejg04")
+offset_right = 150.0
+offset_bottom = 150.0
+texture = ExtResource("2_4yk4i")
 
 [node name="Healthbar" type="TextureProgressBar" parent="ReferenceRect"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -61.0
-offset_top = 2.0
-offset_right = -2.0
-offset_bottom = 13.0
+offset_left = 72.0
+offset_top = 20.0
+offset_right = 662.0
+offset_bottom = 130.0
 grow_horizontal = 0
-value = 10.0
-texture_under = ExtResource("2_dswd2")
-texture_progress = ExtResource("4_t52rq")
-
-[node name="TextureRect" type="TextureRect" parent="ReferenceRect"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 13.0
-offset_bottom = 13.0
-texture = ExtResource("2_p78yu")
+value = 100.0
+texture_under = ExtResource("3_ic81f")
+texture_progress = ExtResource("4_doas8")
+texture_progress_offset = Vector2(0, 15)

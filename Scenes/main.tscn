@@ -25,6 +25,7 @@ position = Vector2(496, 200)
 scale = Vector2(3, 1.263)
 
 [node name="Platform" parent="." instance=ExtResource("3_c0mjr")]
+visible = false
 position = Vector2(504, 360)
 scale = Vector2(2.5, 0.6)
 

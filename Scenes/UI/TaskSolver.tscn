@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ymi2tu1ay0ys"]
+[gd_scene load_steps=5 format=3 uid="uid://ymi2tu1ay0ys"]
 
 [ext_resource type="Script" path="res://Source/UI/task_solver.gd" id="1_wemgo"]
-[ext_resource type="Texture2D" uid="uid://iu5juvgjc1w6" path="res://Assets/background, UI-UX, assets/guitar hero/first row.png" id="2_3wtc7"]
-[ext_resource type="Texture2D" uid="uid://sgqxmche51tw" path="res://Assets/background, UI-UX, assets/guitar hero/skeleton.png" id="2_8o1l0"]
-[ext_resource type="Texture2D" uid="uid://d0xi7qirjlrae" path="res://Assets/background, UI-UX, assets/guitar hero/button.png" id="2_ufdck"]
-[ext_resource type="Texture2D" uid="uid://c3lknmrqu27it" path="res://Assets/background, UI-UX, assets/guitar hero/second row.png" id="3_dcsvb"]
-[ext_resource type="Texture2D" uid="uid://btvmc1en1c4v4" path="res://Assets/background, UI-UX, assets/guitar hero/third row.png" id="4_tt6aq"]
+[ext_resource type="Texture2D" uid="uid://bdjvh6i0sk88d" path="res://Assets/SVG/guitar hero/button.svg" id="2_ofh17"]
+[ext_resource type="Texture2D" uid="uid://dps0r2fy113rl" path="res://Assets/SVG/guitar hero/whole thing.svg" id="6_lind4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kupd0"]
 font_size = 40
@@ -51,7 +48,7 @@ offset_right = 100.0
 offset_bottom = 30.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide1/Player1ButtonBox"]
 layout_mode = 1
@@ -72,11 +69,11 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = -100.0
-offset_top = -30.0
-offset_right = -40.0
-offset_bottom = 30.0
+offset_top = -40.0
+offset_right = -20.0
+offset_bottom = 40.0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide1/Player2ButtonBox"]
 layout_mode = 1
@@ -91,29 +88,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="OrangeLine" type="TextureRect" parent="VBoxContainer/Slide1"]
-modulate = Color(1, 1, 1, 0.745098)
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.5
-offset_bottom = 13.5
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_3wtc7")
-expand_mode = 1
-
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide1"]
 z_as_relative = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 100.0
+offset_left = 62.0
 offset_top = -50.0
-offset_right = 125.0
+offset_right = 87.0
 offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
@@ -135,7 +118,7 @@ offset_right = 100.0
 offset_bottom = 30.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide2/Player1ButtonBox"]
 layout_mode = 1
@@ -160,7 +143,7 @@ offset_top = -30.0
 offset_right = -40.0
 offset_bottom = 30.0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide2/Player2ButtonBox"]
 layout_mode = 1
@@ -175,29 +158,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="OrangeLine" type="TextureRect" parent="VBoxContainer/Slide2"]
-modulate = Color(1, 1, 1, 0.745098)
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.5
-offset_bottom = 13.5
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_dcsvb")
-expand_mode = 1
-
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide2"]
 z_as_relative = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 100.0
+offset_left = 62.0
 offset_top = -50.0
-offset_right = 125.0
+offset_right = 87.0
 offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
@@ -219,7 +188,7 @@ offset_right = 100.0
 offset_bottom = 30.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide3/Player1ButtonBox"]
 layout_mode = 1
@@ -244,7 +213,7 @@ offset_top = -30.0
 offset_right = -40.0
 offset_bottom = 30.0
 grow_vertical = 2
-texture = ExtResource("2_ufdck")
+texture = ExtResource("2_ofh17")
 
 [node name="Label" type="Label" parent="VBoxContainer/Slide3/Player2ButtonBox"]
 layout_mode = 1
@@ -259,29 +228,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="OrangeLine" type="TextureRect" parent="VBoxContainer/Slide3"]
-modulate = Color(1, 1, 1, 0.745098)
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -17.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_tt6aq")
-expand_mode = 1
-
 [node name="HitBox" type="TextureRect" parent="VBoxContainer/Slide3"]
 z_as_relative = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 100.0
+offset_left = 62.0
 offset_top = -50.0
-offset_right = 125.0
+offset_right = 87.0
 offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
@@ -291,7 +246,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 112.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_8o1l0")
+texture = ExtResource("6_lind4")
+expand_mode = 1

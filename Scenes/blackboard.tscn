@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://be6aucgi5intg"]
 
 [ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
-[ext_resource type="Texture2D" uid="uid://cv1vqxku4ybye" path="res://Assets/background, UI-UX, assets/blackboard.png" id="2_boijq"]
+[ext_resource type="Texture2D" uid="uid://dltpyyduo5jbp" path="res://Assets/SVG/blackboard glowing.svg" id="2_horrt"]
 [ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="3_5258c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
@@ -14,9 +14,9 @@ collision_mask = 2
 script = ExtResource("1_wfx12")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1.05263, 2.5)
-scale = Vector2(1.52909, 3.625)
-texture = ExtResource("2_boijq")
+position = Vector2(1.05262, 2.5)
+scale = Vector2(0.149756, 0.345238)
+texture = ExtResource("2_horrt")
 
 [node name="Outline" type="Sprite2D" parent="."]
 visible = false
