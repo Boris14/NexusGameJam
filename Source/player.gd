@@ -8,7 +8,7 @@ signal picked_up_glasses(player)
 signal tried_start_solving(player)
 
 @export var speed = 300.0
-@export var no_glasses_speed_debuff = 0.5
+@export var no_glasses_speed_debuff = 0.3
 @export var max_jump_velocity = -800.0
 @export var max_jump_hold_time = 0.2
 @export var max_health = 100.0
@@ -27,6 +27,7 @@ const JUMP_FORCE = 20
 
 # Player States
 var _is_jumping = false
+var _is_in_jumping_animation = false
 var _is_without_glasses = false
 var _is_picking_up_glasses = false
 var _is_facing_left = false
@@ -73,8 +74,17 @@ func _ready():
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor(): ## THIS IS ALWAYS TRUE?
 		velocity.y += gravity * delta
+
+	if velocity.y < 0:
+		_is_in_jumping_animation = true
+		_state_machine.travel("jumpLoop")
+	elif velocity.y > 0:
+		_is_in_jumping_animation = true
+		_state_machine.travel("fallLoop")
+	else:
+		_is_in_jumping_animation = false
 	
 	if _is_picking_up_glasses or _is_solving:
 		return
@@ -127,19 +137,18 @@ func _physics_process(delta):
 		and _jump_time < max_jump_hold_time):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
-
-	if _is_jumping:
-		_state_machine.travel("jumping")
+		
+		
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
-		if not _is_jumping and not _is_solving:
+		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
 			_state_machine.travel("walking" if not _is_without_glasses else "crawling")
 		_change_facing_direction(direction)
 		velocity.x = direction * _speed
 	else:
-		if not _is_jumping and not _is_solving:
+		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
 			_state_machine.travel("idle" if not _is_without_glasses else "crawling_idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
