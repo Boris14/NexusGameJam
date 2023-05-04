@@ -13,7 +13,7 @@ func _process(delta):
 
 	
 func _on_player_dropped_glasses(player):
-	$CollisionShape2D.disabled = false
+	#$CollisionShape2D.disabled = false
 
 	
 func _on_player_picked_up_glasses(player):

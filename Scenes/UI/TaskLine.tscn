@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vgb345wmhvdc"]
 
-[ext_resource type="Texture2D" uid="uid://bhgwr4pq36dis" path="res://Assets/background, UI-UX, assets/guitar hero/target.png" id="1_571r1"]
+[ext_resource type="Texture2D" uid="uid://cg2w2swf46j35" path="res://Assets/SVG/guitar hero/target.svg" id="1_cbn2p"]
 
 [node name="KeyBox" type="TextureRect"]
 z_index = 1
@@ -16,4 +16,5 @@ offset_right = 25.0
 offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_571r1")
+pivot_offset = Vector2(35, 35)
+texture = ExtResource("1_cbn2p")

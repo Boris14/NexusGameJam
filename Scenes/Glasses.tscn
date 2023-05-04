@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://dvvbjhpvgo8vj"]
 
 [ext_resource type="Script" path="res://Source/glasses.gd" id="1_b3lsb"]
-[ext_resource type="Texture2D" uid="uid://bsymgvauqdaoc" path="res://Assets/glasses.png" id="2_snxu0"]
+[ext_resource type="Texture2D" uid="uid://dcej8fxwp2fuq" path="res://Assets/SVG/glasses/glasses.svg" id="2_xg7a7"]
 [ext_resource type="PackedScene" uid="uid://b3ql4wj3n3evr" path="res://Scenes/UI/PickupBar.tscn" id="3_eu3nf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cthke"]
-size = Vector2(80, 48)
+size = Vector2(64, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nx06t"]
-size = Vector2(80, 64)
+size = Vector2(64, 32)
 
 [node name="Glasses" type="RigidBody2D"]
 z_index = 1
@@ -19,8 +19,9 @@ script = ExtResource("1_b3lsb")
 shape = SubResource("RectangleShape2D_cthke")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8, 0.6)
-texture = ExtResource("2_snxu0")
+position = Vector2(0, -3.8147e-06)
+scale = Vector2(0.376471, 0.457143)
+texture = ExtResource("2_xg7a7")
 
 [node name="InteractArea" type="Area2D" parent="."]
 collision_mask = 2
@@ -29,5 +30,7 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_nx06t")
 
 [node name="PickupBar" parent="." instance=ExtResource("3_eu3nf")]
+offset_left = -100.0
 offset_top = -150.0
-offset_bottom = -110.0
+offset_right = 100.0
+offset_bottom = -120.0

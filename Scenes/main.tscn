@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://dt1ctfp0vgvws"]
 
 [ext_resource type="Script" path="res://Source/main.gd" id="1_l1i7m"]
-[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/blackboard.tscn" id="2_yyua3"]
-[ext_resource type="PackedScene" uid="uid://ce0ff4ygit634" path="res://Scenes/platfrom.tscn" id="3_c0mjr"]
+[ext_resource type="Texture2D" uid="uid://baelqavxgc8l8" path="res://Assets/map-Sheet.svg" id="2_lc5d5"]
+[ext_resource type="PackedScene" uid="uid://be6aucgi5intg" path="res://Scenes/Blackboard.tscn" id="2_yyua3"]
 [ext_resource type="PackedScene" uid="uid://dflldkbtccrde" path="res://Scenes/floor.tscn" id="4_0o56b"]
 [ext_resource type="PackedScene" uid="uid://ymi2tu1ay0ys" path="res://Scenes/UI/TaskSolver.tscn" id="6_dxuy2"]
 [ext_resource type="PackedScene" uid="uid://dfefb7wjmqox3" path="res://Scenes/UI/HUD.tscn" id="6_joee4"]
@@ -10,16 +10,25 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_l1i7m")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lc5d5")
+expand_mode = 1
+
 [node name="Blackboard" parent="." instance=ExtResource("2_yyua3")]
 position = Vector2(496, 200)
 scale = Vector2(3, 1.263)
 
-[node name="Platform" parent="." instance=ExtResource("3_c0mjr")]
-position = Vector2(504, 360)
-scale = Vector2(2.5, 0.6)
-
 [node name="Floor" parent="." instance=ExtResource("4_0o56b")]
-position = Vector2(456, 632)
+position = Vector2(456, 650)
+scale = Vector2(6, 2.637)
+
+[node name="Roof" parent="." instance=ExtResource("4_0o56b")]
+position = Vector2(472, -192)
 scale = Vector2(6, 2.637)
 
 [node name="RightWall" parent="." instance=ExtResource("4_0o56b")]

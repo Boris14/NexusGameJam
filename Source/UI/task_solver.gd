@@ -15,6 +15,8 @@ signal line_missed()
 
 var _rand = RandomNumberGenerator.new()
 var _slides = []
+var _player_1_buttons = []
+var _player_2_buttons = []
 var _slide_actions = []
 var _lines = []
 var _line_spawn_interval
@@ -26,6 +28,10 @@ var _is_player_1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_slides = [$VBoxContainer/Slide1, $VBoxContainer/Slide2, $VBoxContainer/Slide3]
+	for slide in _slides:
+		_player_1_buttons.append(slide.find_child("Player1ButtonBox"))
+		_player_2_buttons.append(slide.find_child("Player2ButtonBox"))
+
 	_hitbox_x = _slides[0].find_child("HitBox").position.x
 	visible = false 
 	
@@ -76,12 +82,12 @@ func set_is_player_1(in_is_player_1):
 	_slide_actions.append(str("player_" + ("1" if _is_player_1 else "2") + "_punch"))
 	_slide_actions.append(str("player_" + ("1" if _is_player_1 else "2") + "_kick"))
 	_slide_actions.append(str("player_" + ("1" if _is_player_1 else "2") + "_solve"))
-	for i in len(_slides):
-		# Set the correct labels 
-		var labelName = str("Player" + ("1" if _is_player_1 else "2") + "Label")
-		(_slides[i].find_child(labelName, false) as Label).text = InputMap.action_get_events(_slide_actions[i])[0].as_text()[0]
-		var otherLabelName = str("Player" + ("2" if _is_player_1 else "1") + "Label")
-		_slides[i].find_child(otherLabelName, false).visible = false
+	
+	var show_buttons = _player_1_buttons if _is_player_1 else _player_2_buttons 
+	var hide_buttons = _player_2_buttons if _is_player_1 else _player_1_buttons 
+	for i in len(show_buttons):
+		show_buttons[i].find_child("Label").text = InputMap.action_get_events(_slide_actions[i])[0].as_text()[0]
+		hide_buttons[i].visible = false
 
 func _on_player_started_solving(is_player_1, position_x):
 	if _is_player_1 != is_player_1:
