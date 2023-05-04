@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ymi2tu1ay0ys"]
+[gd_scene load_steps=6 format=3 uid="uid://ymi2tu1ay0ys"]
 
 [ext_resource type="Script" path="res://Source/UI/task_solver.gd" id="1_wemgo"]
 [ext_resource type="Texture2D" uid="uid://bdjvh6i0sk88d" path="res://Assets/SVG/guitar hero/button.svg" id="2_ofh17"]
+[ext_resource type="Texture2D" uid="uid://cw0flrlunqljc" path="res://Assets/SVG/guitar hero/dash.svg" id="3_46i0s"]
 [ext_resource type="Texture2D" uid="uid://dps0r2fy113rl" path="res://Assets/SVG/guitar hero/whole thing.svg" id="6_lind4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kupd0"]
@@ -42,10 +43,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = -30.0
-offset_right = 100.0
-offset_bottom = 30.0
+offset_left = 110.0
+offset_top = -40.0
+offset_right = 190.0
+offset_bottom = 40.0
 grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
@@ -68,9 +69,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -190.0
 offset_top = -40.0
-offset_right = -20.0
+offset_right = -110.0
 offset_bottom = 40.0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
@@ -101,6 +102,33 @@ offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
 
+[node name="Player1Dash" type="TextureRect" parent="VBoxContainer/Slide1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -5.0
+offset_right = 70.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
+
+[node name="Player2Dash" type="TextureRect" parent="VBoxContainer/Slide1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -5.0
+offset_right = -50.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
+
 [node name="Slide2" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -112,10 +140,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = -30.0
-offset_right = 100.0
-offset_bottom = 30.0
+offset_left = 110.0
+offset_top = -40.0
+offset_right = 190.0
+offset_bottom = 40.0
 grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
@@ -138,10 +166,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -30.0
-offset_right = -40.0
-offset_bottom = 30.0
+offset_left = -190.0
+offset_top = -40.0
+offset_right = -110.0
+offset_bottom = 40.0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
 
@@ -171,6 +199,33 @@ offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
 
+[node name="Player1Dash" type="TextureRect" parent="VBoxContainer/Slide2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -5.0
+offset_right = 70.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
+
+[node name="Player2Dash" type="TextureRect" parent="VBoxContainer/Slide2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -5.0
+offset_right = -50.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
+
 [node name="Slide3" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -182,10 +237,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = -30.0
-offset_right = 100.0
-offset_bottom = 30.0
+offset_left = 110.0
+offset_top = -40.0
+offset_right = 190.0
+offset_bottom = 40.0
 grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
@@ -208,10 +263,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -30.0
-offset_right = -40.0
-offset_bottom = 30.0
+offset_left = -190.0
+offset_top = -40.0
+offset_right = -110.0
+offset_bottom = 40.0
 grow_vertical = 2
 texture = ExtResource("2_ofh17")
 
@@ -240,6 +295,33 @@ offset_right = 87.0
 offset_bottom = 50.0
 grow_vertical = 2
 expand_mode = 1
+
+[node name="Player1Dash" type="TextureRect" parent="VBoxContainer/Slide3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -5.0
+offset_right = 70.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
+
+[node name="Player2Dash" type="TextureRect" parent="VBoxContainer/Slide3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -5.0
+offset_right = -50.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("3_46i0s")
 
 [node name="WhiteLines" type="TextureRect" parent="."]
 layout_mode = 1

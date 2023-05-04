@@ -17,6 +17,8 @@ var _rand = RandomNumberGenerator.new()
 var _slides = []
 var _player_1_buttons = []
 var _player_2_buttons = []
+var _player_1_dashes = []
+var _player_2_dashes = []
 var _slide_actions = []
 var _lines = []
 var _line_spawn_interval
@@ -31,6 +33,8 @@ func _ready():
 	for slide in _slides:
 		_player_1_buttons.append(slide.find_child("Player1ButtonBox"))
 		_player_2_buttons.append(slide.find_child("Player2ButtonBox"))
+		_player_1_dashes.append(slide.find_child("Player1Dash"))
+		_player_2_dashes.append(slide.find_child("Player2Dash"))
 
 	_hitbox_x = _slides[0].find_child("HitBox").position.x
 	visible = false 
@@ -85,8 +89,19 @@ func set_is_player_1(in_is_player_1):
 	
 	var show_buttons = _player_1_buttons if _is_player_1 else _player_2_buttons 
 	var hide_buttons = _player_2_buttons if _is_player_1 else _player_1_buttons 
-	for i in len(show_buttons):
-		show_buttons[i].find_child("Label").text = InputMap.action_get_events(_slide_actions[i])[0].as_text()[0]
+	var show_dashes = _player_1_dashes if _is_player_1 else _player_2_dashes
+	var hide_dashes = _player_2_dashes if _is_player_1 else _player_1_dashes
+	
+	show_buttons[0].find_child("Label").text = "T" if _is_player_1 else "M"
+	show_buttons[1].find_child("Label").text = "Y" if _is_player_1 else ","
+	show_buttons[2].find_child("Label").text = "U" if _is_player_1 else "."
+	
+	for dash in show_dashes:
+		dash.visible = true
+	for dash in hide_dashes:
+		dash.visible = false
+	
+	for i in len(hide_buttons):
 		hide_buttons[i].visible = false
 
 func _on_player_started_solving(is_player_1, position_x):

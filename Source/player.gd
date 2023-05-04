@@ -15,9 +15,9 @@ signal kicked()
 @export var max_jump_velocity = -800.0
 @export var max_jump_hold_time = 0.2
 @export var max_health = 100.0
-@export var max_solve_score = 40
+@export var max_solve_score = 30
 @export var punch_damage = 10.0
-@export var kick_damage = 15.0
+@export var kick_damage = 100.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
 @export var kick_block_duration = 0.4
@@ -26,7 +26,7 @@ signal kicked()
 @export var block_coef = 0.33
 
 # How fast the player reaches it's max_jump_velocity (not changing is recommended)
-const JUMP_FORCE = 20 
+const JUMP_FORCE = 30 
 
 # Player States
 var _is_jumping = false

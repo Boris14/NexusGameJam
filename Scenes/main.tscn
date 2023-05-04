@@ -22,15 +22,14 @@ texture = ExtResource("2_lc5d5")
 expand_mode = 1
 
 [node name="Blackboard" parent="." instance=ExtResource("2_yyua3")]
-position = Vector2(496, 250)
-scale = Vector2(3, 1.263)
+position = Vector2(483, 230)
 
 [node name="Floor" parent="." instance=ExtResource("4_0o56b")]
 position = Vector2(456, 650)
 scale = Vector2(6, 2.637)
 
 [node name="Roof" parent="." instance=ExtResource("4_0o56b")]
-position = Vector2(472, -192)
+position = Vector2(472, -280)
 scale = Vector2(6, 2.637)
 
 [node name="RightWall" parent="." instance=ExtResource("4_0o56b")]
@@ -53,16 +52,16 @@ position = Vector2(872, 336)
 
 [node name="Player1TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
 offset_left = 32.0
-offset_top = -100.0
+offset_top = -118.0
 offset_right = 432.0
-offset_bottom = 200.0
+offset_bottom = 182.0
 scale = Vector2(0.5, 0.5)
 
 [node name="Player2TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
-offset_left = -192.0
-offset_top = -100.0
-offset_right = 208.0
-offset_bottom = 200.0
+offset_left = -232.0
+offset_top = -118.0
+offset_right = 168.0
+offset_bottom = 182.0
 scale = Vector2(0.5, 0.5)
 
 [node name="PauseMenu" parent="." instance=ExtResource("7_axyvh")]

@@ -9,7 +9,7 @@ signal started_solving(is_player_1, pos)
 signal stopped_solving(is_player_1)
 
 @export var solve_y_offset = -60
-@export var start_solve_y_offset = 50
+@export var start_solve_y_offset = 20
 
 var _is_active = false
 var _player_1_solve_x
@@ -29,14 +29,13 @@ func _ready():
 	_player_2_panel.size.y = start_solve_y_offset - start_solve_y_offset
 	_player_1_solve_x = position.x - ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
 	_player_2_solve_x = position.x + ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
-	$Base.texture = NormalTexture
+	$Base.texture = HighlightedTexture
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if _is_active:
 		return
-	
 	
 	for node in get_overlapping_bodies():
 		if (node.is_class("CharacterBody2D") and 
