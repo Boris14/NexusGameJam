@@ -5,13 +5,13 @@ const TaskLineScene = preload("res://Scenes/UI/TaskLine.tscn")
 signal line_hit()
 signal line_missed()
 
-@export var initial_line_spawn_interval = 2
-@export var initial_line_speed = 90
-@export var min_line_spawn_interval = 0.6
-@export var max_line_speed = 170
+@export var initial_line_spawn_interval = 1
+@export var initial_line_speed = 130
+@export var min_line_spawn_interval = 1
+@export var max_line_speed = 200
 @export var hit_spawn_interval_decrease = 0.94
 @export var hit_speed_increase = 1.12
-@export var hitbox_error = 15
+@export var hitbox_error = 20
 
 var _rand = RandomNumberGenerator.new()
 var _slides = []

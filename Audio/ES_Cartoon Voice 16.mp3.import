@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bmuaglss68ad3"
+path="res://.godot/imported/ES_Cartoon Voice 16.mp3-ad0e9c087e926d229739ba57ad859585.mp3str"
+
+[deps]
+
+source_file="res://Audio/ES_Cartoon Voice 16.mp3"
+dest_files=["res://.godot/imported/ES_Cartoon Voice 16.mp3-ad0e9c087e926d229739ba57ad859585.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

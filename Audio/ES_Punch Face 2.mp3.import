@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://yr3sdyk65ebe"
+path="res://.godot/imported/ES_Punch Face 2.mp3-2b1c7bf30c5d78242364e685eba8433f.mp3str"
+
+[deps]
+
+source_file="res://Audio/ES_Punch Face 2.mp3"
+dest_files=["res://.godot/imported/ES_Punch Face 2.mp3-2b1c7bf30c5d78242364e685eba8433f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

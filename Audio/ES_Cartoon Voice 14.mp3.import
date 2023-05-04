@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://egkmhomhfabl"
+path="res://.godot/imported/ES_Cartoon Voice 14.mp3-450df309ec4bd9dab3b237c3a647a34e.mp3str"
+
+[deps]
+
+source_file="res://Audio/ES_Cartoon Voice 14.mp3"
+dest_files=["res://.godot/imported/ES_Cartoon Voice 14.mp3-450df309ec4bd9dab3b237c3a647a34e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

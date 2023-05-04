@@ -7,19 +7,21 @@ signal tried_glasses_pickup(player)
 signal picked_up_glasses(player)
 signal tried_start_solving(player)
 signal changed_solve_score(is_player_1, solve_score, max_solve_score)
+signal punched()
+signal kicked()
 
 @export var speed = 300.0
 @export var no_glasses_speed_debuff = 0.3
 @export var max_jump_velocity = -800.0
 @export var max_jump_hold_time = 0.2
 @export var max_health = 100.0
-@export var max_solve_score = 50
+@export var max_solve_score = 40
 @export var punch_damage = 10.0
-@export var kick_damage = 20.0
+@export var kick_damage = 15.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
-@export var kick_block_duration = 0.6
-@export var kick_duration = 0.4
+@export var kick_block_duration = 0.4
+@export var kick_duration = 0.3
 @export var blocking_attacks_duration = 1
 @export var block_coef = 0.33
 
@@ -55,6 +57,9 @@ var _solve_action
 var _state_machine
 
 func _ready():
+	if not get_meta("is_player_1"):
+		$Sprite2D.texture = load("res://Assets/PlayerSprites/second_character.svg")
+	
 	_state_machine = $AnimationTree.get("parameters/playback")
 	_is_blocking_attacks = false
 	_is_jumping = false
@@ -223,12 +228,13 @@ func _reset_block():
 func _punch():
 	_activate_hit_area(_is_facing_left, punch_damage, false)
 	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
+	emit_signal("punched")
 	
 
 func _kick():
 	_activate_hit_area(_is_facing_left, kick_damage, true)
 	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_movement)
-		
+	emit_signal("kicked")
 		
 func _on_started_solving(is_player_1, pos):
 	if get_meta("is_player_1") != is_player_1:

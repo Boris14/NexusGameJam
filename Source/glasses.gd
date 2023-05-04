@@ -5,7 +5,7 @@ const NormalTexture = preload("res://Assets/SVG/glasses/glasses.svg")
 
 signal started_glasses_pickup(pickup_time)
 
-@export var max_pickup_time = 4
+@export var max_pickup_time = 6
 @export var impulse_force = 1000
 
 const PickupBar = preload("res://Source/UI/pickup_bar.gd")
@@ -43,7 +43,7 @@ func _process(delta):
 func _on_player_tried_glasses_pickup(player):
 	if _is_touching_owner and _pickup_bar.is_indicator_moving:
 		var pick_value = _pickup_bar.stop_indicator() # returns [0; 1]
-		var time = remap(pick_value, 0, 1, 0, max_pickup_time)
+		var time = remap(pick_value, 0, 1, 0.4, max_pickup_time)
 		emit_signal("started_glasses_pickup", time)
 		await get_tree().create_timer(time / 2).timeout
 		queue_free()
