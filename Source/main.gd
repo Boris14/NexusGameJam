@@ -5,15 +5,15 @@ const HUD = preload("res://Source/UI/hud.gd")
 const Glasses = preload("res://Source/glasses.gd")
 const TaskSolver = preload("res://Source/UI/task_solver.gd")
 const Blackboard = preload("res://Source/blackboard.gd")
+const PauseMenu = preload("res://Source/UI/pause_menu.gd")
 
 const PlayerScene = preload("res://Scenes/player.tscn")
 const GlassesScene = preload("res://Scenes/Glasses.tscn")
-const PauseMenuScene = preload("res://Scenes/UI/PauseMenu.tscn")
 
 var player_1_task_solver : TaskSolver
 var player_2_task_solver : TaskSolver
 var blackboard : Blackboard
-var pause_menu : Node
+var pause_menu : PauseMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,16 +21,13 @@ func _ready():
 	player_2_task_solver = $Player2TaskSolver as TaskSolver
 	player_1_task_solver.set_is_player_1(true)
 	player_2_task_solver.set_is_player_1(false)
-	pause_menu = PauseMenuScene.instantiate()
+	pause_menu = $PauseMenu as PauseMenu
 	pause_menu.visible = false
-	pause_menu.z_index = 10
-	add_child(pause_menu)
 	blackboard = $Blackboard as Blackboard
 	blackboard.connect("started_solving", player_1_task_solver._on_player_started_solving)
 	blackboard.connect("started_solving", player_2_task_solver._on_player_started_solving)
 	blackboard.connect("stopped_solving", player_1_task_solver._on_player_stopped_solving)
 	blackboard.connect("stopped_solving", player_2_task_solver._on_player_stopped_solving)
-	#platform = $Platform as Platform
 	_spawn_player(true)
 	_spawn_player(false)
 
@@ -38,8 +35,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel") and not pause_menu.visible:
-		pause_menu.visible = true
-		get_tree().paused = true
+		Input.action_release("ui_cancel")
+		pause_menu.pause()
 	
 	
 	
