@@ -14,6 +14,7 @@ var player_1_task_solver : TaskSolver
 var player_2_task_solver : TaskSolver
 var blackboard : Blackboard
 var pause_menu : PauseMenu
+var hud : HUD
 
 const hit_sounds = [
 	"res://Audio/ES_Cartoon Voice 12.mp3",
@@ -33,8 +34,8 @@ const punch_sounds = [
 ]
 
 const kick_sounds = [
-	"res://Audio/ES_Punch Heavy.mp3",
-	"res://Audio/ES_Punch Hard.mp3",
+	"res://Audio/ES_Punch Face Heavy 1.mp3",
+	"res://Audio/ES_Punch Face Hard 6.mp3",
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -46,6 +47,8 @@ func _ready():
 	player_2_task_solver = $Player2TaskSolver as TaskSolver
 	player_1_task_solver.set_is_player_1(true)
 	player_2_task_solver.set_is_player_1(false)
+	hud = $HUD as HUD
+	hud.connect("round_ended", _on_round_ended)
 	pause_menu = $PauseMenu as PauseMenu
 	pause_menu.visible = false
 	blackboard = $Blackboard as Blackboard
@@ -53,6 +56,8 @@ func _ready():
 	blackboard.connect("started_solving", player_2_task_solver._on_player_started_solving)
 	blackboard.connect("stopped_solving", player_1_task_solver._on_player_stopped_solving)
 	blackboard.connect("stopped_solving", player_2_task_solver._on_player_stopped_solving)
+	blackboard.connect("started_solving", _on_started_solving)
+	blackboard.connect("stopped_solving", _on_stopped_solving)
 	_spawn_player(true)
 	_spawn_player(false)
 
@@ -64,13 +69,12 @@ func _process(delta):
 		pause_menu.pause()
 	
 	
-	
 func _spawn_player(is_player_1):
 	var player = PlayerScene.instantiate() as Player
 	player.set_meta("is_player_1", is_player_1)
 	player.position = ($Player1StartPosition if is_player_1 else $Player2StartPosition).position
-	player.connect("health_changed", ($HUD as HUD)._on_player_health_changed)
 	player.connect("health_changed", _on_player_health_changed)
+	player.connect("health_changed", hud._on_player_health_changed)
 	player.connect("dropped_glasses", _on_player_dropped_glasses)
 	player.connect("dropped_glasses", blackboard._on_player_dropped_glasses)
 	player.connect("tried_start_solving", blackboard._on_player_tried_start_solving)
@@ -78,11 +82,9 @@ func _spawn_player(is_player_1):
 	player.connect("changed_solve_score", blackboard._on_player_changed_solve_score)
 	player.connect("kicked", _on_player_kicked)
 	player.connect("punched", _on_player_punched)
-	
+	player.connect("changed_solve_score", hud._on_player_solve_score_changed)
 	blackboard.connect("started_solving", player._on_started_solving)
 	blackboard.connect("stopped_solving", player._on_stopped_solving)
-	blackboard.connect("started_solving", _on_started_solving)
-	blackboard.connect("stopped_solving", _on_stopped_solving)
 	if is_player_1:
 		player_1_task_solver.connect("line_hit", player._on_line_hit)
 	else:
@@ -116,7 +118,7 @@ func _on_player_punched():
 	$Punch.set_stream(sound_fx)
 	$Punch.play()
 	
-func _on_player_kicked(): #not working :(
+func _on_player_kicked():
 	var index = randi_range(0, kick_sounds.size())
 	var sound_fx = load(kick_sounds[index - 1])
 	$Kick.set_stream(sound_fx)
@@ -128,3 +130,7 @@ func _on_started_solving(is_player_1, pos):
 func _on_stopped_solving(is_player_1):
 	$Solving.stop()
 	
+
+func _on_round_ended():
+	# End screen
+	get_tree().quit()

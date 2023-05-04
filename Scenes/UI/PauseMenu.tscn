@@ -1,12 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://8j67j51xytx1"]
+[gd_scene load_steps=8 format=3 uid="uid://8j67j51xytx1"]
 
 [ext_resource type="Script" path="res://Source/UI/pause_menu.gd" id="1_hxgv5"]
 [ext_resource type="Texture2D" uid="uid://cjeulu07ywn1i" path="res://Assets/SVG/pause menu/pause board.svg" id="1_mi0mw"]
 [ext_resource type="Texture2D" uid="uid://c23p7utlioacq" path="res://Assets/SVG/pause menu/first button.svg" id="2_dgk0r"]
 [ext_resource type="Texture2D" uid="uid://chewkvo7appid" path="res://Assets/SVG/pause menu/second button.svg" id="3_0235u"]
+[ext_resource type="Texture2D" uid="uid://bhxxfj7i8o0d2" path="res://Assets/SVG/pause menu/third button.svg" id="4_pnusb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6xnh"]
 font_size = 60
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_s1yvl"]
+line_spacing = 0.0
+font_size = 30
 font_color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" type="Panel"]
@@ -38,10 +44,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -104.0
-offset_top = 80.0
-offset_right = 246.0
-offset_bottom = 220.0
+offset_left = -112.0
+offset_top = 48.0
+offset_right = 238.0
+offset_bottom = 188.0
 grow_horizontal = 2
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("2_dgk0r")
@@ -64,6 +70,41 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
+[node name="RestartButton" type="TextureButton" parent="BoardImage"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_top = 136.0
+offset_right = 258.0
+offset_bottom = 286.0
+grow_horizontal = 2
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("4_pnusb")
+texture_pressed = ExtResource("4_pnusb")
+texture_hover = ExtResource("4_pnusb")
+texture_disabled = ExtResource("4_pnusb")
+texture_focused = ExtResource("4_pnusb")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="BoardImage/RestartButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -30.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.10472
+text = "Restart
+"
+label_settings = SubResource("LabelSettings_u6xnh")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
 [node name="QuitButton" type="TextureButton" parent="BoardImage"]
 layout_mode = 1
 anchors_preset = 8
@@ -72,9 +113,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -112.0
-offset_top = 2.0
+offset_top = 42.0
 offset_right = 248.0
-offset_bottom = 162.0
+offset_bottom = 202.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
@@ -90,13 +131,29 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = 0.0698132
 text = "Quit"
 label_settings = SubResource("LabelSettings_u6xnh")
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 610.0
+offset_top = 385.0
+offset_right = 654.0
+offset_bottom = 443.0
+rotation = 0.257904
+text = "||"
+label_settings = SubResource("LabelSettings_s1yvl")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
 [connection signal="pressed" from="BoardImage/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="BoardImage/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="BoardImage/QuitButton" to="." method="_on_quit_button_pressed"]

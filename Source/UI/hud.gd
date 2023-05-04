@@ -2,7 +2,9 @@ extends Control
 
 const Healthbar = preload("res://Source/UI/healthbar.gd")
 
-@export var round_time = 70
+signal round_ended()
+
+@export var round_time = 120
 
 var _time_left = 0
 var _player_1_healthbar : Healthbar
@@ -33,6 +35,7 @@ func _on_round_timer_timeout():
 	_seconds_label.text = str(seconds_value) if seconds_value > 9 else "0" + str(seconds_value)
 	_minutes_label.text = str(minutes_value) if minutes_value > 9 else "0" + str(minutes_value)
 	if _time_left <= 0:
+		emit_signal("round_ended")
 		$RoundTimer.stop()
 
 
@@ -41,3 +44,10 @@ func _on_player_health_changed(is_player_1, new_health, max_health):
 		_player_1_healthbar.set_heatlh_value(new_health / max_health * 100)
 	else:
 		_player_2_healthbar.set_heatlh_value(new_health / max_health * 100)
+		
+		
+func _on_player_solve_score_changed(is_player_1, new_score, max_score):
+	if is_player_1:	
+		_player_1_healthbar.set_solve_progress(float(new_score) / max_score * 100)
+	else:
+		_player_2_healthbar.set_solve_progress(float(new_score) / max_score * 100)

@@ -67,6 +67,7 @@ func _ready():
 	_is_facing_left = not get_meta("is_player_1")
 	_jump_time = 0
 	take_damage(-max_health)
+	_add_solve_score(0)
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
 	_move_right_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_right")
 	_jump_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_jump")
@@ -243,10 +244,7 @@ func _on_started_solving(is_player_1, pos):
 	_is_solving = true
 	velocity - Vector2(0, 0)
 	position = pos
-	if float(_solve_score) / max_solve_score < 0.6:
-		_state_machine.travel("writing_up")
-	else:
-		_state_machine.travel("writing_down")
+	_add_solve_score(0)
 	
 
 func _on_stopped_solving(is_player_1):
@@ -257,10 +255,16 @@ func _on_stopped_solving(is_player_1):
 	
 	
 func _on_line_hit():
-	_solve_score += 1
-	if float(_solve_score) / max_solve_score >= 0.6:
-		_state_machine.travel("writing_down")
+	_add_solve_score(1)
+	
+	
+func _add_solve_score(score):
+	_solve_score += score
 	emit_signal("changed_solve_score", get_meta("is_player_1"), _solve_score, max_solve_score)
+	if float(_solve_score) / max_solve_score < 0.6 and _state_machine.get_current_node() != "writing_up":
+		_state_machine.travel("writing_up")
+	elif _state_machine.get_current_node() != "writing_down":
+		_state_machine.travel("writing_down")
+		
 	if _solve_score >= max_solve_score:
 		pass # Win Game
-	

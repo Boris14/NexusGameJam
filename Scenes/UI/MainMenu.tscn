@@ -1,0 +1,148 @@
+[gd_scene load_steps=8 format=3 uid="uid://qa8dpyfm67kt"]
+
+[ext_resource type="Texture2D" uid="uid://cbnt24n1s8vdn" path="res://Assets/SVG/background.svg" id="1_17ueu"]
+[ext_resource type="Texture2D" uid="uid://c23p7utlioacq" path="res://Assets/SVG/pause menu/first button.svg" id="1_n1pmu"]
+[ext_resource type="Texture2D" uid="uid://blemlpqobqau7" path="res://Assets/SVG/blackboard first half glowing.svg" id="1_num6o"]
+[ext_resource type="Script" path="res://Source/UI/main_menu.gd" id="1_olish"]
+[ext_resource type="Texture2D" uid="uid://bhxxfj7i8o0d2" path="res://Assets/SVG/pause menu/third button.svg" id="1_w5ujh"]
+[ext_resource type="Texture2D" uid="uid://chewkvo7appid" path="res://Assets/SVG/pause menu/second button.svg" id="2_vtimp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kdedr"]
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_olish")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_17ueu")
+expand_mode = 1
+
+[node name="TitleImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -232.0
+offset_top = 8.0
+offset_right = 738.0
+offset_bottom = 428.0
+grow_horizontal = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_num6o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -332.0
+offset_right = 266.0
+offset_bottom = 214.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.6, 0.6)
+alignment = 1
+
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+texture_normal = ExtResource("1_n1pmu")
+texture_pressed = ExtResource("1_n1pmu")
+texture_hover = ExtResource("1_n1pmu")
+texture_disabled = ExtResource("1_n1pmu")
+texture_focused = ExtResource("1_n1pmu")
+
+[node name="Label" type="Label" parent="VBoxContainer/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+label_settings = SubResource("LabelSettings_kdedr")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Seperator" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="HowToPlayButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("2_vtimp")
+texture_pressed = ExtResource("2_vtimp")
+texture_hover = ExtResource("2_vtimp")
+texture_disabled = ExtResource("2_vtimp")
+texture_focused = ExtResource("2_vtimp")
+
+[node name="Label" type="Label" parent="VBoxContainer/HowToPlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.10472
+pivot_offset = Vector2(200, 80)
+text = "How to Play"
+label_settings = SubResource("LabelSettings_kdedr")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Seperator2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuitButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+texture_normal = ExtResource("1_w5ujh")
+texture_pressed = ExtResource("1_w5ujh")
+texture_hover = ExtResource("1_w5ujh")
+texture_disabled = ExtResource("1_w5ujh")
+texture_focused = ExtResource("1_w5ujh")
+
+[node name="Label" type="Label" parent="VBoxContainer/QuitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -50.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0872665
+pivot_offset = Vector2(200, 75)
+text = "Quit
+"
+label_settings = SubResource("LabelSettings_kdedr")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
