@@ -8,13 +8,13 @@ signal picked_up_glasses(player)
 signal tried_start_solving(player)
 
 @export var speed = 300.0
-@export var no_glasses_speed_debuff = 0.5
+@export var no_glasses_speed_debuff = 0.3
 @export var max_jump_velocity = -800.0
 @export var max_jump_hold_time = 0.2
 @export var max_health = 100.0
 @export var max_solve_score = 50
 @export var punch_damage = 10.0
-@export var kick_damage = 100.0
+@export var kick_damage = 20.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
 @export var kick_block_duration = 0.6
@@ -27,6 +27,7 @@ const JUMP_FORCE = 20
 
 # Player States
 var _is_jumping = false
+var _is_in_jumping_animation = false
 var _is_without_glasses = false
 var _is_picking_up_glasses = false
 var _is_facing_left = false
@@ -58,7 +59,7 @@ func _ready():
 	_is_without_glasses = false
 	_is_facing_left = not get_meta("is_player_1")
 	_jump_time = 0
-	take_damage(-max_health)
+	_health = max_health
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
 	_move_right_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_right")
 	_jump_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_jump")
@@ -73,8 +74,17 @@ func _ready():
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor(): ## THIS IS ALWAYS TRUE?
 		velocity.y += gravity * delta
+
+	if velocity.y < 0:
+		_is_in_jumping_animation = true
+		_state_machine.travel("jumpLoop")
+	elif velocity.y > 0:
+		_is_in_jumping_animation = true
+		_state_machine.travel("fallLoop")
+	else:
+		_is_in_jumping_animation = false
 	
 	if _is_picking_up_glasses or _is_solving:
 		return
@@ -107,6 +117,8 @@ func _physics_process(delta):
 	if (Input.is_action_just_pressed(_solve_action) and 
 		not _is_without_glasses and is_on_floor()):
 		emit_signal("tried_start_solving", self)
+		_state_machine.travel("writing_up")
+		##here check which stage of writting and chose from "writting_up" or "writting_down"
 
 	if _is_movement_blocked:
 		return
@@ -125,20 +137,19 @@ func _physics_process(delta):
 		and _jump_time < max_jump_hold_time):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
-
-	if _is_jumping and _state_machine.get_current_node() != "jumping":
-		_state_machine.travel("jumping")
+		
+		
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
-		if not _is_jumping and _state_machine.get_current_node() != "walking":
-			_state_machine.travel("walking")
+		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
+			_state_machine.travel("walking" if not _is_without_glasses else "crawling")
 		_change_facing_direction(direction)
 		velocity.x = direction * _speed
 	else:
-		if not _is_jumping and _state_machine.get_current_node() != "idle":
-			_state_machine.travel("idle")
+		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
+			_state_machine.travel("idle" if not _is_without_glasses else "crawling_idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
@@ -148,7 +159,7 @@ func take_damage(damage):
 		_health -= damage if not _is_blocking_attacks else block_coef * damage
 		_health = clamp(_health, 0, max_health)
 		emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
-		if _health <= 0 and not _is_without_glasses:
+		if _health <= 0:
 			# Drops glasses
 			_is_without_glasses = true
 			emit_signal("dropped_glasses", self)
@@ -226,3 +237,4 @@ func _on_line_hit():
 	_solve_score += 1
 	if _solve_score >= max_solve_score:
 		pass # Win Game
+		
