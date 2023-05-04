@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxvdqn30mifiu"
+path="res://.godot/imported/ES_Metal Drop 32.mp3-c2adaaca617c21b63987ca505600e332.mp3str"
+
+[deps]
+
+source_file="res://Audio/ES_Metal Drop 32.mp3"
+dest_files=["res://.godot/imported/ES_Metal Drop 32.mp3-c2adaaca617c21b63987ca505600e332.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

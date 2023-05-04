@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bgokfynd4od4u"
+path="res://.godot/imported/ES_Punch Face Cartoon 4.mp3-e6938c0ac3340304e483f44591fb32e6.mp3str"
+
+[deps]
+
+source_file="res://Audio/ES_Punch Face Cartoon 4.mp3"
+dest_files=["res://.godot/imported/ES_Punch Face Cartoon 4.mp3-e6938c0ac3340304e483f44591fb32e6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
