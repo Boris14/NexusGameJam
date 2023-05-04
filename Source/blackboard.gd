@@ -14,8 +14,8 @@ signal stopped_solving(is_player_1)
 var _is_active = false
 var _player_1_solve_x
 var _player_2_solve_x
-var _player_1_can_solve = false
-var _player_2_can_solve = false
+var _player_1_is_without_glasses = false
+var _player_2_is_without_glasses = false
 var _player_1_panel : Control
 var _player_2_panel : Control
 var _max_panel_height : float
@@ -42,10 +42,15 @@ func _process(delta):
 		if (node.is_class("CharacterBody2D") and 
 			node.has_method("is_on_floor") and 
 			node.is_on_floor() and 
-			(_player_1_can_solve or _player_2_can_solve)):
-			if node.get_meta("is_player_1") == _player_1_can_solve:
-				$Base.texture = HighlightedTexture
-				return
+			(_player_1_is_without_glasses or _player_2_is_without_glasses)):
+				if node.get_meta("is_player_1"):
+					if not _player_1_is_without_glasses:
+						$Base.texture = HighlightedTexture
+						return
+				else:
+					if not _player_2_is_without_glasses:
+						$Base.texture = HighlightedTexture
+						return
 			
 	if $Base.texture == HighlightedTexture:
 		$Base.texture = NormalTexture
@@ -56,7 +61,11 @@ func _on_player_tried_start_solving(player):
 		return
 		
 	var is_player_1 = player.get_meta("is_player_1")
-	var player_can_solve = _player_1_can_solve if is_player_1 else _player_2_can_solve
+	var player_can_solve
+	if is_player_1:
+		player_can_solve = _player_2_is_without_glasses and not _player_1_is_without_glasses
+	else:
+		player_can_solve = _player_1_is_without_glasses and not _player_2_is_without_glasses
 	
 	if not player_can_solve:
 		return
@@ -72,16 +81,19 @@ func _on_player_tried_start_solving(player):
 	
 func _on_player_picked_up_glasses(player):
 	_is_active = false
-	_player_1_can_solve = false
-	_player_2_can_solve = false
-	emit_signal("stopped_solving", not player.get_meta("is_player_1"))
+	var is_player_1 = player.get_meta("is_player_1")
+	if is_player_1:
+		_player_1_is_without_glasses = false
+	else:
+		_player_2_is_without_glasses = false
+	emit_signal("stopped_solving", not is_player_1)
 	
 
 func _on_player_dropped_glasses(player):
 	if player.get_meta("is_player_1"):
-		_player_2_can_solve = true
+		_player_1_is_without_glasses = true
 	else:
-		_player_1_can_solve = true
+		_player_2_is_without_glasses = true
 		
 
 func _on_player_changed_solve_score(is_player_1, solve_score, max_solve_score):
