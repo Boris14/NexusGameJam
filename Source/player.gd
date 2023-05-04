@@ -14,7 +14,7 @@ signal tried_start_solving(player)
 @export var max_health = 100.0
 @export var max_solve_score = 50
 @export var punch_damage = 10.0
-@export var kick_damage = 20.0
+@export var kick_damage = 100.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
 @export var kick_block_duration = 0.6
@@ -58,7 +58,7 @@ func _ready():
 	_is_without_glasses = false
 	_is_facing_left = not get_meta("is_player_1")
 	_jump_time = 0
-	_health = max_health
+	take_damage(-max_health)
 	_move_left_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_left")
 	_move_right_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_right")
 	_jump_action = str("player_" + ("1" if get_meta("is_player_1") else "2") + "_jump")
@@ -126,18 +126,18 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
-	if _is_jumping:
+	if _is_jumping and _state_machine.get_current_node() != "jumping":
 		_state_machine.travel("jumping")
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
-		if not _is_jumping:
+		if not _is_jumping and _state_machine.get_current_node() != "walking":
 			_state_machine.travel("walking")
 		_change_facing_direction(direction)
 		velocity.x = direction * _speed
 	else:
-		if not _is_jumping:
+		if not _is_jumping and _state_machine.get_current_node() != "idle":
 			_state_machine.travel("idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
@@ -148,7 +148,7 @@ func take_damage(damage):
 		_health -= damage if not _is_blocking_attacks else block_coef * damage
 		_health = clamp(_health, 0, max_health)
 		emit_signal("health_changed", get_meta("is_player_1"), _health, max_health)
-		if _health <= 0:
+		if _health <= 0 and not _is_without_glasses:
 			# Drops glasses
 			_is_without_glasses = true
 			emit_signal("dropped_glasses", self)

@@ -43,6 +43,7 @@ func _spawn_player(is_player_1):
 	player.connect("health_changed", ($HUD as HUD)._on_player_health_changed)
 	player.connect("dropped_glasses", _on_player_dropped_glasses)
 	player.connect("dropped_glasses", platform._on_player_dropped_glasses)
+	player.connect("dropped_glasses", blackboard._on_player_dropped_glasses)
 	player.connect("tried_start_solving", blackboard._on_player_tried_start_solving)
 	player.connect("picked_up_glasses", platform._on_player_picked_up_glasses)
 	player.connect("picked_up_glasses", blackboard._on_player_picked_up_glasses)

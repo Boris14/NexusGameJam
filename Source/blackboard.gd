@@ -8,6 +8,8 @@ signal stopped_solving(is_player_1)
 var _is_active = false
 var _player_1_solve_x
 var _player_2_solve_x
+var _player_1_can_solve = false
+var _player_2_can_solve = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +27,7 @@ func _process(_delta):
 		if (node.is_class("CharacterBody2D") and 
 			node.has_method("is_on_floor") and 
 			node.is_on_floor()):
-			$Outline.visible = true
+			#$Outline.visible = true
 			return
 			
 	if $Outline.visible:
@@ -36,10 +38,15 @@ func _on_player_tried_start_solving(player):
 	if _is_active:
 		return
 		
+	var is_player_1 = player.get_meta("is_player_1")
+	var player_can_solve = _player_1_can_solve if is_player_1 else _player_2_can_solve
+	
+	if not player_can_solve:
+		return
+	
 	for node in get_overlapping_bodies():
 		if node == player:
 			$Outline.visible = false
-			var is_player_1 = player.get_meta("is_player_1")
 			var solve_pos_x = _player_1_solve_x if is_player_1 else _player_2_solve_x
 			emit_signal("started_solving", is_player_1, solve_pos_x)
 			_is_active = true
@@ -47,4 +54,13 @@ func _on_player_tried_start_solving(player):
 	
 func _on_player_picked_up_glasses(player):
 	_is_active = false
+	_player_1_can_solve = false
+	_player_2_can_solve = false
 	emit_signal("stopped_solving", not player.get_meta("is_player_1"))
+	
+
+func _on_player_dropped_glasses(player):
+	if player.get_meta("is_player_1"):
+		_player_2_can_solve = true
+	else:
+		_player_1_can_solve = true
