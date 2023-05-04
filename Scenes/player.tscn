@@ -337,6 +337,7 @@ advance_mode = 0
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0ncbq"]
+reset = false
 switch_mode = 2
 advance_mode = 2
 
@@ -347,6 +348,7 @@ advance_mode = 0
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2xawk"]
+reset = false
 switch_mode = 2
 advance_mode = 2
 
@@ -428,7 +430,7 @@ states/jumpLoop/position = Vector2(5.93201, 273.232)
 states/kicking/node = SubResource("AnimationNodeAnimation_a053p")
 states/kicking/position = Vector2(647, 73)
 states/punching/node = SubResource("AnimationNodeAnimation_a7o31")
-states/punching/position = Vector2(379.92, 185)
+states/punching/position = Vector2(379.92, 180.232)
 states/walking/node = SubResource("AnimationNodeAnimation_886qf")
 states/walking/position = Vector2(254, 207)
 states/writing_down/node = SubResource("AnimationNodeAnimation_dqnmk")
@@ -436,7 +438,7 @@ states/writing_down/position = Vector2(-22.068, -87.7681)
 states/writing_up/node = SubResource("AnimationNodeAnimation_7fkip")
 states/writing_up/position = Vector2(142, -70.9655)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0713r"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_dqcdq"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_nmntq"), "kicking", "idle", SubResource("AnimationNodeStateMachineTransition_0ncbq"), "idle", "kicking", SubResource("AnimationNodeStateMachineTransition_507wj"), "idle", "punching", SubResource("AnimationNodeStateMachineTransition_3a8an"), "punching", "idle", SubResource("AnimationNodeStateMachineTransition_2xawk"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_6qaxi"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_035nd"), "idle", "crawling", SubResource("AnimationNodeStateMachineTransition_lhnma"), "crawling", "idle", SubResource("AnimationNodeStateMachineTransition_hhaae"), "crawling_idle", "idle", SubResource("AnimationNodeStateMachineTransition_okjkv"), "crawling_idle", "crawling", SubResource("AnimationNodeStateMachineTransition_qqme4"), "crawling", "crawling_idle", SubResource("AnimationNodeStateMachineTransition_l2p86"), "idle", "crawling_idle", SubResource("AnimationNodeStateMachineTransition_dqt2t"), "idle", "writing_up", SubResource("AnimationNodeStateMachineTransition_7wp7b"), "writing_up", "idle", SubResource("AnimationNodeStateMachineTransition_rcr3k"), "writing_down", "idle", SubResource("AnimationNodeStateMachineTransition_xeeyg"), "idle", "writing_down", SubResource("AnimationNodeStateMachineTransition_r8dhq"), "walking", "jump", SubResource("AnimationNodeStateMachineTransition_ynwjt"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_hpmkj"), "jump", "jumpLoop", SubResource("AnimationNodeStateMachineTransition_7l1en"), "jumpLoop", "fall", SubResource("AnimationNodeStateMachineTransition_x46fs"), "fall", "fallLoop", SubResource("AnimationNodeStateMachineTransition_6r5bu"), "fallLoop", "idle", SubResource("AnimationNodeStateMachineTransition_mlfu1")]
-graph_offset = Vector2(-281.068, -158.489)
+graph_offset = Vector2(-304.068, -24.489)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_7l8sr"]
 
@@ -453,7 +455,7 @@ scale = Vector2(0.089, 0.089)
 texture = ExtResource("2_66wkm")
 hframes = 7
 vframes = 7
-frame = 5
+frame = 9
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

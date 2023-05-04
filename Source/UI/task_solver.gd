@@ -2,6 +2,12 @@ extends Panel
 
 const TaskLineScene = preload("res://Scenes/UI/TaskLine.tscn")
 
+const Player1WholeTexture = preload("res://Assets/SVG/guitar hero/whole thing.svg")
+const Player2WholeTexture = preload("res://Assets/second character/the whole thing 2.svg")
+const Player1LineTexture = preload("res://Assets/SVG/guitar hero/target.svg")
+const Player2LineTexture = preload("res://Assets/second character/target 2.svg")
+
+
 signal line_hit()
 signal line_missed()
 
@@ -73,6 +79,7 @@ func _spawn_line():
 		return
 
 	var line = TaskLineScene.instantiate() as Control
+	(line as TextureRect).texture = Player1LineTexture if _is_player_1 else Player2LineTexture
 	line.set_anchors_preset(Control.PRESET_CENTER_RIGHT, false)
 	var index = _rand.randi_range(0, _slides.size() - 1)
 	_slides[index].add_child(line)
@@ -82,6 +89,9 @@ func _spawn_line():
 	
 func set_is_player_1(in_is_player_1):
 	_is_player_1 = in_is_player_1
+	
+	$WhiteLines.texture = Player1WholeTexture if _is_player_1 else Player2WholeTexture
+	
 	# Add the button actions
 	_slide_actions.append(str("player_" + ("1" if _is_player_1 else "2") + "_punch"))
 	_slide_actions.append(str("player_" + ("1" if _is_player_1 else "2") + "_kick"))

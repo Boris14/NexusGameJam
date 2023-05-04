@@ -1,5 +1,8 @@
 extends Panel
 
+const Player1Texture = preload("res://Assets/background, UI-UX, assets/glasses pickup/pickup bar.png")
+const Player2Texture = preload("res://Assets/second character/blue_slider.svg")
+
 @export var indicator_speed = 160
 
 var _max_indicator_x = 0
@@ -33,4 +36,9 @@ func stop_indicator():
 	_picked_value = abs(remap($Indicator.position.x, 0, _max_indicator_x, -1, 1))
 	return _picked_value
 	
+func set_is_player_1(is_player_1):
+	if is_player_1:
+		$Background.texture = Player1Texture
+	else:
+		$Background.texture = Player2Texture
 	

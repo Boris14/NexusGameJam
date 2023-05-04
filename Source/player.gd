@@ -17,7 +17,7 @@ signal kicked()
 @export var max_health = 100.0
 @export var max_solve_score = 30
 @export var punch_damage = 10.0
-@export var kick_damage = 100.0
+@export var kick_damage = 15.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
 @export var kick_block_duration = 0.4
@@ -128,6 +128,8 @@ func _physics_process(delta):
 		emit_signal("tried_start_solving", self)
 
 	if _is_movement_blocked:
+		if _is_knocked_back and not _is_blocking_attacks:
+			move_and_slide()
 		return
 
 	if _is_without_glasses:
@@ -145,7 +147,7 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, max_jump_velocity, delta * JUMP_FORCE)
 		_jump_time += delta
 
-	if _is_knocked_back:
+	if _is_knocked_back and not _is_blocking_attacks:
 		move_and_slide()
 		return
 	# Get the input direction and handle the movement/deceleration.
@@ -175,15 +177,22 @@ func take_damage(damage):
 
 
 func apply_knockback(is_to_the_left, damage):
+	if _is_blocking_attacks:
+		return false
+		
 	var knockback = 300 + damage * 30
 	if is_to_the_left:
 		velocity.x -= knockback
 	else:
 		velocity.x += knockback
 	_is_knocked_back = true
-	await get_tree().create_timer(0.1).timeout
-	_is_knocked_back = false
+	get_tree().create_timer(0.1).timeout.connect(_disable_knockback)
+	return true
 		
+		
+func _disable_knockback():
+	_is_knocked_back = false	
+	
 func _on_started_glasses_pickup(pickup_time):
 	_is_picking_up_glasses = true
 	await get_tree().create_timer(pickup_time).timeout
@@ -202,10 +211,22 @@ func _activate_hit_area(is_facing_left, damage, is_kick):
 	else:
 		HitArea = $LeftPunchArea if is_facing_left else $RightPunchArea
 
+	var block_duration = kick_block_duration if is_kick else punch_block_duration
 	for body in HitArea.get_overlapping_bodies():
 		if body.has_method("take_damage") and body != self:
 			body.take_damage(damage)
-			body.apply_knockback(is_facing_left, damage)
+			var succeeded = body.apply_knockback(is_facing_left, damage)
+			if succeeded:
+				return block_duration
+			else:
+				$AnimationTree.active = false
+				get_tree().create_timer(block_duration).timeout.connect(_resume_animation)
+				return block_duration * 2
+	return block_duration
+
+func _resume_animation():
+	$AnimationTree.active = true
+	#$AnimationPlayer.play()
 
 
 func _change_facing_direction(direction):
@@ -227,14 +248,14 @@ func _reset_block():
 	
 	
 func _punch():
-	_activate_hit_area(_is_facing_left, punch_damage, false)
-	get_tree().create_timer(punch_block_duration).timeout.connect(_reset_movement)
+	var timer_dur = _activate_hit_area(_is_facing_left, punch_damage, false)
+	get_tree().create_timer(timer_dur).timeout.connect(_reset_movement)
 	emit_signal("punched")
 	
 
 func _kick():
-	_activate_hit_area(_is_facing_left, kick_damage, true)
-	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_movement)
+	var timer_dur = _activate_hit_area(_is_facing_left, kick_damage, true)
+	get_tree().create_timer(timer_dur).timeout.connect(_reset_movement)
 	emit_signal("kicked")
 		
 func _on_started_solving(is_player_1, pos):
