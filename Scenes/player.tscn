@@ -184,7 +184,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_3qkyp"]
 resource_name = "kicking"
-step = 0.2
+length = 0.7
+step = 0.15
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -192,7 +193,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [38, 39, 40, 41, 42]
@@ -431,14 +432,14 @@ states/writing_up/position = Vector2(142, -70.9655)
 states/writting_down/node = SubResource("AnimationNodeAnimation_dqnmk")
 states/writting_down/position = Vector2(-22.068, -87.7681)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0713r"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_dqcdq"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_nmntq"), "kicking", "idle", SubResource("AnimationNodeStateMachineTransition_0ncbq"), "idle", "kicking", SubResource("AnimationNodeStateMachineTransition_507wj"), "idle", "punching", SubResource("AnimationNodeStateMachineTransition_3a8an"), "punching", "idle", SubResource("AnimationNodeStateMachineTransition_2xawk"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_6qaxi"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_035nd"), "idle", "crawling", SubResource("AnimationNodeStateMachineTransition_lhnma"), "crawling", "idle", SubResource("AnimationNodeStateMachineTransition_hhaae"), "crawling_idle", "idle", SubResource("AnimationNodeStateMachineTransition_okjkv"), "crawling_idle", "crawling", SubResource("AnimationNodeStateMachineTransition_qqme4"), "crawling", "crawling_idle", SubResource("AnimationNodeStateMachineTransition_l2p86"), "idle", "crawling_idle", SubResource("AnimationNodeStateMachineTransition_dqt2t"), "idle", "writing_up", SubResource("AnimationNodeStateMachineTransition_7wp7b"), "writing_up", "idle", SubResource("AnimationNodeStateMachineTransition_rcr3k"), "writting_down", "idle", SubResource("AnimationNodeStateMachineTransition_xeeyg"), "idle", "writting_down", SubResource("AnimationNodeStateMachineTransition_r8dhq"), "walking", "jump", SubResource("AnimationNodeStateMachineTransition_ynwjt"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_hpmkj"), "jump", "jumpLoop", SubResource("AnimationNodeStateMachineTransition_7l1en"), "jumpLoop", "fall", SubResource("AnimationNodeStateMachineTransition_x46fs"), "fall", "fallLoop", SubResource("AnimationNodeStateMachineTransition_6r5bu"), "fallLoop", "idle", SubResource("AnimationNodeStateMachineTransition_mlfu1")]
-graph_offset = Vector2(-281.068, 84.1462)
+graph_offset = Vector2(-281.068, -206.112)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_7l8sr"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 1
 position = Vector2(374, -99)
-scale = Vector2(3, 3)
+scale = Vector2(3.5, 3.5)
 collision_layer = 2
 script = ExtResource("1_sm4am")
 

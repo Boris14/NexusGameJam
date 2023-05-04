@@ -14,11 +14,11 @@ signal tried_start_solving(player)
 @export var max_health = 100.0
 @export var max_solve_score = 50
 @export var punch_damage = 10.0
-@export var kick_damage = 100.0
+@export var kick_damage = 25.0
 @export var punch_block_duration = 0.2
 @export var punch_duration = 0.3
-@export var kick_block_duration = 0.6
-@export var kick_duration = 0.4
+@export var kick_block_duration = 0.4
+@export var kick_duration = 0.3
 @export var blocking_attacks_duration = 1
 @export var block_coef = 0.33
 
