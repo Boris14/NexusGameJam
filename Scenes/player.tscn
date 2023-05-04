@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_81hmu"]
 radius = 11.0
-height = 47.3333
+height = 51.3333
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_akgel"]
 radius = 6.99997
@@ -40,10 +40,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [42, 43]
+"values": [43]
 }
 
 [sub_resource type="Animation" id="Animation_oo3v5"]
@@ -345,65 +345,63 @@ collision_layer = 2
 script = ExtResource("1_sm4am")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, -13)
+position = Vector2(0, -10.333)
 scale = Vector2(0.089, 0.089)
 texture = ExtResource("2_66wkm")
-flip_h = true
 hframes = 7
 vframes = 7
 frame = 5
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(1.66666, 0.666664)
+position = Vector2(3.45707e-06, -1.19209e-07)
 shape = SubResource("CapsuleShape2D_81hmu")
 metadata/_edit_lock_ = true
 
 [node name="LeftPunchArea" type="Area2D" parent="."]
-visible = false
 collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="LeftHitCollision" type="CollisionShape2D" parent="LeftPunchArea"]
 light_mask = 0
-position = Vector2(-16.3333, -5.33334)
+position = Vector2(-20, -4)
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.627451, 0.529412, 0, 0.419608)
 metadata/_edit_lock_ = true
 
 [node name="RightPunchArea" type="Area2D" parent="."]
-visible = false
 position = Vector2(46, 0)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="RightHitCollision" type="CollisionShape2D" parent="RightPunchArea"]
 light_mask = 0
-position = Vector2(-27.6667, -5.66667)
+position = Vector2(-27.667, -4)
 shape = SubResource("CircleShape2D_akgel")
 debug_color = Color(0.831373, 0.341176, 0.501961, 0.419608)
 metadata/_edit_lock_ = true
 
 [node name="LeftKickArea" type="Area2D" parent="."]
-visible = false
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftKickArea"]
-position = Vector2(-14.3333, -8.33334)
+position = Vector2(-15, -5.66667)
 rotation = -1.07687
 shape = SubResource("CapsuleShape2D_qhct1")
 debug_color = Color(0.788235, 0.431373, 0, 0.419608)
+metadata/_edit_lock_ = true
 
 [node name="RightKickArea" type="Area2D" parent="."]
-visible = false
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightKickArea"]
-position = Vector2(17, -7.66667)
+position = Vector2(16, -5)
 rotation = 4.13643
 shape = SubResource("CapsuleShape2D_qhct1")
 debug_color = Color(0.960784, 0, 0.701961, 0.419608)
+metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
