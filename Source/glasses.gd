@@ -27,6 +27,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):	
+	angular_damp = 0
 	for body in $InteractArea.get_overlapping_bodies():
 		if body == player_owner and linear_velocity.length() < _idle_velocity_length:
 			$Sprite2D.texture = HighlightedTexture

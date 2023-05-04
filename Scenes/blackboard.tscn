@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://be6aucgi5intg"]
+[gd_scene load_steps=6 format=3 uid="uid://be6aucgi5intg"]
 
 [ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
-[ext_resource type="Texture2D" uid="uid://dltpyyduo5jbp" path="res://Assets/SVG/blackboard glowing.svg" id="2_horrt"]
+[ext_resource type="Texture2D" uid="uid://bn1qhtvbe0r8" path="res://Assets/SVG/blackboard.svg" id="2_amt7g"]
 [ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="3_5258c"]
+[ext_resource type="Texture2D" uid="uid://bx7nmyhl1fh0e" path="res://Assets/SVG/blackboard first half.svg" id="3_t62ib"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
 size = Vector2(145.684, 144)
@@ -13,17 +14,69 @@ collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_wfx12")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1.05262, 2.5)
-scale = Vector2(0.149756, 0.345238)
-texture = ExtResource("2_horrt")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.842106, 0)
+shape = SubResource("RectangleShape2D_5d0n7")
+
+[node name="Base" type="Sprite2D" parent="."]
+position = Vector2(0, -1.60933e-06)
+scale = Vector2(0.149756, 0.35)
+texture = ExtResource("2_amt7g")
+
+[node name="Player1Panel" type="Control" parent="Base"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -475.0
+offset_top = -200.0
+offset_right = -475.0
+offset_bottom = -229.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Texture" type="TextureRect" parent="Base/Player1Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -485.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_t62ib")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="Player2Panel" type="Control" parent="Base"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -478.0
+offset_top = -200.0
+offset_right = -514.0
+offset_bottom = -243.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Texture" type="TextureRect" parent="Base/Player2Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 464.0
+offset_right = -10.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_t62ib")
+expand_mode = 1
+stretch_mode = 2
 
 [node name="Outline" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-1.90735e-06, 3.8147e-06)
 scale = Vector2(0.650718, 2)
 texture = ExtResource("3_5258c")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.842106, 0)
-shape = SubResource("RectangleShape2D_5d0n7")

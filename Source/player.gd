@@ -6,6 +6,7 @@ signal dropped_glasses(player)
 signal tried_glasses_pickup(player)
 signal picked_up_glasses(player)
 signal tried_start_solving(player)
+signal changed_solve_score(is_player_1, solve_score, max_solve_score)
 
 @export var speed = 300.0
 @export var no_glasses_speed_debuff = 0.3
@@ -73,9 +74,6 @@ func _ready():
 
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor(): ## THIS IS ALWAYS TRUE?
-		velocity.y += gravity * delta
 
 	if velocity.y < 0:
 		_is_in_jumping_animation = true
@@ -88,6 +86,10 @@ func _physics_process(delta):
 	
 	if _is_picking_up_glasses or _is_solving:
 		return
+
+	# Add the gravity.
+	if not is_on_floor(): ## THIS IS ALWAYS TRUE?
+		velocity.y += gravity * delta
 
 	# Handle Combat actions
 	if (not _is_movement_blocked and 
@@ -109,13 +111,13 @@ func _physics_process(delta):
 		_is_movement_blocked = false
 		_is_blocking_attacks = false
 			
-			
 	if (Input.is_action_just_pressed(_punch_action) and 
 		_is_without_glasses and is_on_floor()):
 		emit_signal("tried_glasses_pickup", self)
 		
 	if (Input.is_action_just_pressed(_solve_action) and 
-		not _is_without_glasses and is_on_floor()):
+		not _is_without_glasses and is_on_floor() and 
+		not _is_solving):
 		emit_signal("tried_start_solving", self)
 		_state_machine.travel("writing_up")
 		##here check which stage of writting and chose from "writting_up" or "writting_down"
@@ -216,12 +218,13 @@ func _kick():
 	get_tree().create_timer(kick_block_duration).timeout.connect(_reset_movement)
 		
 		
-func _on_started_solving(is_player_1, position_x):
+func _on_started_solving(is_player_1, pos):
 	if get_meta("is_player_1") != is_player_1:
 		return
 		
 	_is_solving = true
-	position.x = position_x
+	velocity - Vector2(0, 0)
+	position = pos
 	# Switch to solve animation state
 	
 
@@ -234,6 +237,9 @@ func _on_stopped_solving(is_player_1):
 	
 func _on_line_hit():
 	_solve_score += 1
+	if float(_solve_score) / max_solve_score >= 0.6:
+		_state_machine.travel("writing_down")
+	emit_signal("changed_solve_score", get_meta("is_player_1"), _solve_score, max_solve_score)
 	if _solve_score >= max_solve_score:
 		pass # Win Game
 		

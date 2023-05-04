@@ -10,7 +10,7 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_l1i7m")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,7 +20,7 @@ texture = ExtResource("2_lc5d5")
 expand_mode = 1
 
 [node name="Blackboard" parent="." instance=ExtResource("2_yyua3")]
-position = Vector2(496, 200)
+position = Vector2(496, 250)
 scale = Vector2(3, 1.263)
 
 [node name="Floor" parent="." instance=ExtResource("4_0o56b")]
@@ -51,10 +51,14 @@ position = Vector2(872, 336)
 
 [node name="Player1TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
 offset_left = 32.0
+offset_top = -100.0
 offset_right = 432.0
+offset_bottom = 200.0
 scale = Vector2(0.5, 0.5)
 
 [node name="Player2TaskSolver" parent="." instance=ExtResource("6_dxuy2")]
 offset_left = -192.0
+offset_top = -100.0
 offset_right = 208.0
+offset_bottom = 200.0
 scale = Vector2(0.5, 0.5)
