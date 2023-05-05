@@ -10,6 +10,8 @@ signal stopped_solving(is_player_1)
 
 @export var solve_y_offset = -60
 @export var start_solve_y_offset = 20
+@export var player_1_color : Color
+@export var player_2_color : Color
 
 var _is_active = false
 var _player_1_solve_x
@@ -29,10 +31,10 @@ func _ready():
 	_player_2_panel.size.y = start_solve_y_offset - start_solve_y_offset
 	_player_1_solve_x = position.x - ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
 	_player_2_solve_x = position.x + ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
-	$Base.texture = HighlightedTexture
+	$Base.texture = NormalTexture
 	$Base/Player1Wins.visible = false
 	$Base/Player2Wins.visible = false
-	$PlayAgainButton.visible = false
+	$Base/PressLabel.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,14 +49,19 @@ func _process(delta):
 			(_player_1_is_without_glasses or _player_2_is_without_glasses)):
 				if node.get_meta("is_player_1"):
 					if not _player_1_is_without_glasses:
+						$Base/PressLabel.label_settings.font_color = player_1_color
+						$Base/PressLabel.visible = true
 						$Base.texture = HighlightedTexture
 						return
 				else:
 					if not _player_2_is_without_glasses:
+						$Base/PressLabel.label_settings.font_color = player_2_color
+						$Base/PressLabel.visible = true
 						$Base.texture = HighlightedTexture
 						return
 			
 	if $Base.texture == HighlightedTexture:
+		$Base/PressLabel.visible = false
 		$Base.texture = NormalTexture
 	
 	
@@ -74,6 +81,7 @@ func _on_player_tried_start_solving(player):
 	
 	for node in get_overlapping_bodies():
 		if node == player:
+			$Base/PressLabel.visible = false
 			$Base.texture = NormalTexture
 			var solve_pos_x = _player_1_solve_x if is_player_1 else _player_2_solve_x
 			var solve_pos_y = player.position.y + solve_y_offset

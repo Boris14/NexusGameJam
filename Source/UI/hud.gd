@@ -5,6 +5,8 @@ const Healthbar = preload("res://Source/UI/healthbar.gd")
 signal round_ended()
 
 @export var round_time = 120
+@export var player_1_color : Color
+@export var player_2_color : Color
 
 var _time_left = 0
 var _player_1_healthbar : Healthbar
@@ -22,6 +24,7 @@ func _ready():
 	_minutes_label = $TimerTexture/MinutesLabel as Label
 	$Player1Grade.visible = false
 	$Player2Grade.visible = false
+	$PlayAgainButton.visible = false
 	_time_left = round_time
 	_on_round_timer_timeout()
 	$RoundTimer.start(1)
@@ -57,7 +60,21 @@ func _on_player_solve_score_changed(is_player_1, new_score, max_score):
 		_player_2_healthbar.set_solve_progress(float(new_score) / max_score * 100)
 
 func _on_player_won(is_player_1):
+	$PlayAgainButton/Label.label_settings.font_color = player_1_color if is_player_1 else player_2_color
+	$PlayAgainButton.visible = true
 	if is_player_1:
 		$Player1Grade.visible = true
 	else:
 		$Player2Grade.visible = true
+
+
+func _on_play_again_button_pressed():
+	get_tree().change_scene_to_file("res://Scenes/UI/TitleScreen.tscn")
+
+
+func _on_play_again_button_button_down():
+	$PlayAgainButton/Label.position.y -= 13
+
+
+func _on_play_again_button_button_up():
+	$PlayAgainButton/Label.position.y += 13

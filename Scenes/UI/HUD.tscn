@@ -1,15 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfefb7wjmqox3"]
+[gd_scene load_steps=10 format=3 uid="uid://dfefb7wjmqox3"]
 
 [ext_resource type="Script" path="res://Source/UI/hud.gd" id="1_r0twu"]
 [ext_resource type="PackedScene" uid="uid://bfbwcptx5w4c3" path="res://Scenes/UI/Healthbar.tscn" id="2_nles8"]
 [ext_resource type="Texture2D" uid="uid://of63777nyawj" path="res://Assets/SVG/timer.svg" id="3_vrrdd"]
 [ext_resource type="Texture2D" uid="uid://cfmnc5w2l84co" path="res://Assets/Victory screen/+A.svg" id="4_lway3"]
 [ext_resource type="FontFile" uid="uid://b7j04d6lvtj3g" path="res://Assets/VCR_OSD_MONO_1.001(1).ttf" id="4_vrkai"]
+[ext_resource type="Texture2D" uid="uid://b1gc650osjwad" path="res://Assets/Victory screen/play_again_button_1.svg" id="6_jupge"]
+[ext_resource type="Texture2D" uid="uid://gt0nod823s7" path="res://Assets/Victory screen/play_again_button_2.svg" id="7_sfih4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mcdoc"]
 font = ExtResource("4_vrkai")
 font_size = 40
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n75ql"]
+font = ExtResource("4_vrkai")
+font_size = 55
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -19,6 +25,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r0twu")
+player_1_color = Color(0.87451, 0.443137, 0.14902, 1)
+player_2_color = Color(0.027451, 0.482353, 0.87451, 1)
 
 [node name="Player1Healthbar" parent="." instance=ExtResource("2_nles8")]
 layout_direction = 2
@@ -115,4 +123,42 @@ offset_bottom = 224.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_lway3")
 
+[node name="PlayAgainButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -160.0
+offset_right = 280.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("6_jupge")
+texture_pressed = ExtResource("7_sfih4")
+texture_hover = ExtResource("6_jupge")
+texture_disabled = ExtResource("6_jupge")
+texture_focused = ExtResource("6_jupge")
+
+[node name="Label" type="Label" parent="PlayAgainButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"
+label_settings = SubResource("LabelSettings_n75ql")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
+[connection signal="button_down" from="PlayAgainButton" to="." method="_on_play_again_button_button_down"]
+[connection signal="button_up" from="PlayAgainButton" to="." method="_on_play_again_button_button_up"]
+[connection signal="pressed" from="PlayAgainButton" to="." method="_on_play_again_button_pressed"]

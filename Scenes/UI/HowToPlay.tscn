@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://csesk5rle18te"]
+
+[ext_resource type="Script" path="res://Source/UI/how_to_play.gd" id="1_xseyq"]
+[ext_resource type="Texture2D" uid="uid://c3vr1o4atl584" path="res://Assets/main menu/how to 1.svg" id="2_aks7t"]
+[ext_resource type="Texture2D" uid="uid://dbhyo845j0rm3" path="res://Assets/main menu/how to 2.svg" id="3_umgq1"]
+[ext_resource type="Texture2D" uid="uid://gdm6bc83ugsf" path="res://Assets/main menu/how to 3.svg" id="4_wohe6"]
+
+[node name="HowToPlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xseyq")
+
+[node name="Image1" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_aks7t")
+expand_mode = 1
+
+[node name="Image2" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_umgq1")
+expand_mode = 1
+
+[node name="Image3" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_wohe6")
+expand_mode = 1

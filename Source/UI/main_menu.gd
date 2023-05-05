@@ -16,9 +16,33 @@ func _on_play_button_pressed():
 	get_tree().change_scene_to_packed(GameScene)
 
 
-func _on_how_to_play_button_pressed():
-	pass # Replace with function body.
+func _on_how_to_button_pressed():
+	get_tree().change_scene_to_file("res://Scenes/UI/HowToPlay.tscn")
 
 
 func _on_quit_button_pressed():
 	get_tree().quit()
+
+
+func _on_play_button_mouse_entered():
+	$BackgroundNormal.visible = false
+
+
+func _on_how_to_button_mouse_entered():
+	$BackgroundNormal.visible = false
+
+
+func _on_quit_button_mouse_entered():
+	$BackgroundNormal.visible = false
+
+
+func _on_play_button_mouse_exited():
+	$BackgroundNormal.visible = true
+
+
+func _on_how_to_button_mouse_exited():
+	$BackgroundNormal.visible = true
+
+
+func _on_quit_button_mouse_exited():
+	$BackgroundNormal.visible = true
