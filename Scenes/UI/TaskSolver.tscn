@@ -1,11 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://ymi2tu1ay0ys"]
+[gd_scene load_steps=7 format=3 uid="uid://ymi2tu1ay0ys"]
 
 [ext_resource type="Script" path="res://Source/UI/task_solver.gd" id="1_wemgo"]
 [ext_resource type="Texture2D" uid="uid://bdjvh6i0sk88d" path="res://Assets/SVG/guitar hero/button.svg" id="2_ofh17"]
 [ext_resource type="Texture2D" uid="uid://cw0flrlunqljc" path="res://Assets/SVG/guitar hero/dash.svg" id="3_46i0s"]
+[ext_resource type="FontFile" uid="uid://b7j04d6lvtj3g" path="res://Assets/VCR_OSD_MONO_1.001(1).ttf" id="3_r65ng"]
 [ext_resource type="Texture2D" uid="uid://dps0r2fy113rl" path="res://Assets/SVG/guitar hero/whole thing.svg" id="6_lind4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kupd0"]
+font = ExtResource("3_r65ng")
 font_size = 40
 font_color = Color(0, 0, 0, 1)
 

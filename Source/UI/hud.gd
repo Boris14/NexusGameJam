@@ -15,9 +15,13 @@ var _minutes_label : Label
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_player_1_healthbar = $Player1Healthbar as Healthbar
+	_player_1_healthbar.set_is_player_1(true)
 	_player_2_healthbar = $Player2Healthbar as Healthbar
+	_player_2_healthbar.set_is_player_1(false)
 	_seconds_label = $TimerTexture/SecondsLabel as Label
 	_minutes_label = $TimerTexture/MinutesLabel as Label
+	$Player1Grade.visible = false
+	$Player2Grade.visible = false
 	_time_left = round_time
 	_on_round_timer_timeout()
 	$RoundTimer.start(1)
@@ -51,3 +55,9 @@ func _on_player_solve_score_changed(is_player_1, new_score, max_score):
 		_player_1_healthbar.set_solve_progress(float(new_score) / max_score * 100)
 	else:
 		_player_2_healthbar.set_solve_progress(float(new_score) / max_score * 100)
+
+func _on_player_won(is_player_1):
+	if is_player_1:
+		$Player1Grade.visible = true
+	else:
+		$Player2Grade.visible = true

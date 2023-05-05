@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://8j67j51xytx1"]
+[gd_scene load_steps=9 format=3 uid="uid://8j67j51xytx1"]
 
 [ext_resource type="Script" path="res://Source/UI/pause_menu.gd" id="1_hxgv5"]
 [ext_resource type="Texture2D" uid="uid://cjeulu07ywn1i" path="res://Assets/SVG/pause menu/pause board.svg" id="1_mi0mw"]
 [ext_resource type="Texture2D" uid="uid://c23p7utlioacq" path="res://Assets/SVG/pause menu/first button.svg" id="2_dgk0r"]
 [ext_resource type="Texture2D" uid="uid://chewkvo7appid" path="res://Assets/SVG/pause menu/second button.svg" id="3_0235u"]
+[ext_resource type="FontFile" uid="uid://b7j04d6lvtj3g" path="res://Assets/VCR_OSD_MONO_1.001(1).ttf" id="4_nk33f"]
 [ext_resource type="Texture2D" uid="uid://bhxxfj7i8o0d2" path="res://Assets/SVG/pause menu/third button.svg" id="4_pnusb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6xnh"]
+font = ExtResource("4_nk33f")
 font_size = 60
 font_color = Color(0, 0, 0, 1)
 
@@ -153,6 +155,8 @@ label_settings = SubResource("LabelSettings_s1yvl")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="ClickAudio" type="AudioStreamPlayer" parent="."]
 
 [connection signal="pressed" from="BoardImage/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="BoardImage/RestartButton" to="." method="_on_restart_button_pressed"]

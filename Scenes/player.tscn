@@ -455,7 +455,7 @@ scale = Vector2(0.089, 0.089)
 texture = ExtResource("2_66wkm")
 hframes = 7
 vframes = 7
-frame = 9
+frame = 5
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

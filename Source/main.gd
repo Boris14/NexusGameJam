@@ -12,6 +12,8 @@ const GlassesScene = preload("res://Scenes/Glasses.tscn")
 
 var player_1_task_solver : TaskSolver
 var player_2_task_solver : TaskSolver
+var player_1 : Player
+var player_2 : Player
 var blackboard : Blackboard
 var pause_menu : PauseMenu
 var hud : HUD
@@ -38,6 +40,16 @@ const kick_sounds = [
 	"res://Audio/ES_Punch Face Hard 6.mp3",
 ]
 
+const solve_sounds = [
+	"res://Audio/hit.wav",
+	"res://Audio/miss.ogg",
+]
+
+const jump_sounds = [
+	"res://Audio/jump1.ogg",
+	"res://Audio/jump2.ogg",
+]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var music = load("res://Audio/ES_Tiger Tracks.mp3")
@@ -47,6 +59,10 @@ func _ready():
 	player_2_task_solver = $Player2TaskSolver as TaskSolver
 	player_1_task_solver.set_is_player_1(true)
 	player_2_task_solver.set_is_player_1(false)
+	player_1_task_solver.connect("line_hit", _on_line_hit)
+	player_2_task_solver.connect("line_hit", _on_line_hit)
+	player_1_task_solver.connect("line_missed", _on_line_missed)
+	player_2_task_solver.connect("line_missed", _on_line_missed)
 	hud = $HUD as HUD
 	hud.connect("round_ended", _on_round_ended)
 	pause_menu = $PauseMenu as PauseMenu
@@ -58,8 +74,8 @@ func _ready():
 	blackboard.connect("stopped_solving", player_2_task_solver._on_player_stopped_solving)
 	blackboard.connect("started_solving", _on_started_solving)
 	blackboard.connect("stopped_solving", _on_stopped_solving)
-	_spawn_player(true)
-	_spawn_player(false)
+	player_1 = _spawn_player(true) as Player
+	player_2 = _spawn_player(false) as Player
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -83,6 +99,14 @@ func _spawn_player(is_player_1):
 	player.connect("kicked", _on_player_kicked)
 	player.connect("punched", _on_player_punched)
 	player.connect("changed_solve_score", hud._on_player_solve_score_changed)
+	player.connect("started_walking", _on_player_started_walking)
+	player.connect("stopped_walking", _on_player_stopped_walking)
+	player.connect("won", blackboard._on_player_won)
+	player.connect("won", hud._on_player_won)
+	player.connect("won", _on_player_won)
+	player.connect("won", player_1_task_solver._on_player_won)
+	player.connect("won", player_2_task_solver._on_player_won)
+	player.connect("jumped", _on_player_jumped)
 	blackboard.connect("started_solving", player._on_started_solving)
 	blackboard.connect("stopped_solving", player._on_stopped_solving)
 	if is_player_1:
@@ -90,6 +114,7 @@ func _spawn_player(is_player_1):
 	else:
 		player_2_task_solver.connect("line_hit", player._on_line_hit)
 	add_child(player)
+	return player
 	
 	
 # Spawn the glasses and connect the needed signals
@@ -130,7 +155,43 @@ func _on_started_solving(is_player_1, pos):
 func _on_stopped_solving(is_player_1):
 	$Solving.stop()
 	
+func _on_player_started_walking():
+	$Walk.play()
+	
+func _on_player_stopped_walking():
+	$Walk.stop()
 
+func _on_line_hit():
+	var sound_fx = load(solve_sounds[0])
+	$SolveSounds.set_stream(sound_fx)
+	$SolveSounds.play()
+	
+func _on_line_missed():
+	var sound_fx = load(solve_sounds[1])
+	$SolveSounds.set_stream(sound_fx)
+	$SolveSounds.play()
+	
+func _on_player_jumped():
+	var sound_fx = load(jump_sounds[randi_range(0, 1)])
+	$Jump.set_stream(sound_fx)
+	$Jump.play()
+	
+func _on_player_won(is_player_1):
+	$Solving.stop()
+	player_1.position = $Player1StartPosition.position
+	player_2.position = $Player2StartPosition.position
+	if is_player_1:
+		player_2.lose()
+	else:
+		player_1.lose()
+	
 func _on_round_ended():
-	# End screen
-	get_tree().quit()
+	$Solving.stop()
+	player_1.position = $Player1StartPosition.position
+	player_2.position = $Player2StartPosition.position
+	if player_1.solve_score > player_2.solve_score:
+		player_1.win()
+		player_2.lose()
+	else:
+		player_1.lose()
+		player_2.win()

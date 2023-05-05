@@ -7,7 +7,6 @@ const Player2WholeTexture = preload("res://Assets/second character/the whole thi
 const Player1LineTexture = preload("res://Assets/SVG/guitar hero/target.svg")
 const Player2LineTexture = preload("res://Assets/second character/target 2.svg")
 
-
 signal line_hit()
 signal line_missed()
 
@@ -127,4 +126,7 @@ func _on_player_stopped_solving(is_player_1):
 	for node in _lines:
 		node.queue_free()
 		_lines.erase(node)
+	visible = false
+	
+func _on_player_won(is_player_1):
 	visible = false

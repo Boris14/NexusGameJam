@@ -9,6 +9,10 @@ signal tried_start_solving(player)
 signal changed_solve_score(is_player_1, solve_score, max_solve_score)
 signal punched()
 signal kicked()
+signal started_walking()
+signal stopped_walking()
+signal won(is_player_1)
+signal jumped()
 
 @export var speed = 300.0
 @export var no_glasses_speed_debuff = 0.3
@@ -38,13 +42,14 @@ var _is_movement_blocked = false
 var _is_solving = false
 var _is_blocking_attacks
 var _is_knocked_back = false
+var _has_finished = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _jump_time = 0
 var _health = max_health
 var _speed = speed
-var _solve_score = 0 
+var solve_score = 0 
 
 # Controls
 var _move_left_action
@@ -55,6 +60,7 @@ var _kick_action
 var _block_action
 var _solve_action
 var _state_machine
+var _is_walking
 
 func _ready():
 	if not get_meta("is_player_1"):
@@ -81,7 +87,9 @@ func _ready():
 
 
 func _physics_process(delta):
-
+	if _has_finished:
+		return
+		
 	if velocity.y < 0:
 		_is_in_jumping_animation = true
 		_state_machine.travel("jumpLoop")
@@ -118,7 +126,7 @@ func _physics_process(delta):
 		_is_movement_blocked = false
 		_is_blocking_attacks = false
 			
-	if (Input.is_action_just_pressed(_punch_action) and 
+	if (Input.is_action_just_pressed(_solve_action) and 
 		_is_without_glasses and is_on_floor()):
 		emit_signal("tried_glasses_pickup", self)
 		
@@ -139,6 +147,8 @@ func _physics_process(delta):
 	# Handle Jump.
 	if Input.is_action_just_pressed(_jump_action) and is_on_floor():
 		_is_jumping = true
+		_set_is_walking(false)
+		emit_signal("jumped")
 	elif Input.is_action_just_released(_jump_action):
 		_is_jumping = false
 		_jump_time = 0
@@ -150,21 +160,25 @@ func _physics_process(delta):
 	if _is_knocked_back and not _is_blocking_attacks:
 		move_and_slide()
 		return
+		
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis(_move_left_action, _move_right_action)
 	if direction:
+		if is_on_floor() and not _is_jumping:
+			_set_is_walking(true)
 		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
 			_state_machine.travel("walking" if not _is_without_glasses else "crawling")
 		_change_facing_direction(direction)
 		velocity.x = direction * _speed
 	else:
+		_set_is_walking(false)
 		if not _is_jumping and not _is_in_jumping_animation and not _is_solving:
 			_state_machine.travel("idle" if not _is_without_glasses else "crawling_idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
-
+	
 
 func take_damage(damage):
 		_health -= damage if not _is_blocking_attacks else block_coef * damage
@@ -187,11 +201,38 @@ func apply_knockback(is_to_the_left, damage):
 		velocity.x += knockback
 	_is_knocked_back = true
 	get_tree().create_timer(0.1).timeout.connect(_disable_knockback)
-	return true
-		
-		
+	return true		
+	
+	
+func win():
+	_is_without_glasses = false
+	_is_solving = false
+	_is_movement_blocked = true
+	_has_finished = true
+	_set_is_walking(false)
+	_state_machine.travel("idle")
+	emit_signal("won", get_meta("is_player_1"))
+	
+func lose():
+	_is_without_glasses = false
+	_is_solving = false
+	_is_movement_blocked = true
+	_has_finished = true
+	_set_is_walking(false)
+	_state_machine.travel("idle")
+	
 func _disable_knockback():
 	_is_knocked_back = false	
+	
+	
+func _set_is_walking(is_walking):
+	if _is_walking == is_walking:
+		return
+	
+	emit_signal("started_walking" if is_walking else "stopped_walking")
+	_is_walking = is_walking
+	
+	
 	
 func _on_started_glasses_pickup(pickup_time):
 	_is_picking_up_glasses = true
@@ -226,7 +267,6 @@ func _activate_hit_area(is_facing_left, damage, is_kick):
 
 func _resume_animation():
 	$AnimationTree.active = true
-	#$AnimationPlayer.play()
 
 
 func _change_facing_direction(direction):
@@ -280,12 +320,12 @@ func _on_line_hit():
 	
 	
 func _add_solve_score(score):
-	_solve_score += score
-	emit_signal("changed_solve_score", get_meta("is_player_1"), _solve_score, max_solve_score)
-	if float(_solve_score) / max_solve_score < 0.6 and _state_machine.get_current_node() != "writing_up":
+	solve_score += score
+	emit_signal("changed_solve_score", get_meta("is_player_1"), solve_score, max_solve_score)
+	if float(solve_score) / max_solve_score < 0.6 and _state_machine.get_current_node() != "writing_up":
 		_state_machine.travel("writing_up")
 	elif _state_machine.get_current_node() != "writing_down":
 		_state_machine.travel("writing_down")
 		
-	if _solve_score >= max_solve_score:
-		pass # Win Game
+	if solve_score >= max_solve_score:
+		win()

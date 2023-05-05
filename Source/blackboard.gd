@@ -30,6 +30,9 @@ func _ready():
 	_player_1_solve_x = position.x - ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
 	_player_2_solve_x = position.x + ($Base.get_rect().size.x * $Base.scale.x / 4 * scale.x)
 	$Base.texture = HighlightedTexture
+	$Base/Player1Wins.visible = false
+	$Base/Player2Wins.visible = false
+	$PlayAgainButton.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -102,3 +105,13 @@ func _on_player_changed_solve_score(is_player_1, solve_score, max_solve_score):
 	else:
 		_player_2_panel.size.y = height
 		
+func _on_player_won(is_player_1):
+	#$PlayAgainButton.visible = true
+	if is_player_1:
+		$Base/Player1Wins.visible = true
+	else:
+		$Base/Player2Wins.visible = true
+		
+
+func _on_play_again_button_pressed():
+	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")

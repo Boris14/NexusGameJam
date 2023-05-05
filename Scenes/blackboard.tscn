@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://be6aucgi5intg"]
+[gd_scene load_steps=10 format=3 uid="uid://be6aucgi5intg"]
 
 [ext_resource type="Script" path="res://Source/blackboard.gd" id="1_wfx12"]
 [ext_resource type="Texture2D" uid="uid://bn1qhtvbe0r8" path="res://Assets/SVG/blackboard.svg" id="2_amt7g"]
-[ext_resource type="Texture2D" uid="uid://1sybbjhedm6f" path="res://Assets/wood_platform.png" id="3_5258c"]
 [ext_resource type="Texture2D" uid="uid://bx7nmyhl1fh0e" path="res://Assets/SVG/blackboard first half.svg" id="3_t62ib"]
+[ext_resource type="Texture2D" uid="uid://ddyb6a3kg0kij" path="res://Assets/Victory screen/PL1.svg" id="4_lv7na"]
+[ext_resource type="Texture2D" uid="uid://rhrnhk5rd4ox" path="res://Assets/Victory screen/PL2.svg" id="5_av31v"]
+[ext_resource type="Texture2D" uid="uid://b1gc650osjwad" path="res://Assets/Victory screen/play_again_button_1.svg" id="6_fe7xr"]
+[ext_resource type="Texture2D" uid="uid://gt0nod823s7" path="res://Assets/Victory screen/play_again_button_2.svg" id="7_q65i1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5d0n7"]
 size = Vector2(145.684, 144)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tn6dy"]
+font_size = 40
+font_color = Color(0, 0, 0, 1)
 
 [node name="Blackboard" type="Area2D"]
 scale = Vector2(3.8, 1.6)
@@ -75,8 +82,67 @@ texture = ExtResource("3_t62ib")
 expand_mode = 1
 stretch_mode = 2
 
-[node name="Outline" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-1.90735e-06, 3.8147e-06)
-scale = Vector2(0.650718, 2)
-texture = ExtResource("3_5258c")
+[node name="Player1Wins" type="TextureRect" parent="Base"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -475.0
+offset_top = -200.0
+offset_right = -475.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_lv7na")
+expand_mode = 1
+
+[node name="Player2Wins" type="TextureRect" parent="Base"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -475.0
+offset_top = -200.0
+offset_right = -475.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_av31v")
+expand_mode = 1
+
+[node name="PlayAgainButton" type="TextureButton" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.8421
+offset_top = 105.0
+offset_right = 343.158
+offset_bottom = 235.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+action_mode = 0
+texture_normal = ExtResource("6_fe7xr")
+texture_pressed = ExtResource("7_q65i1")
+texture_hover = ExtResource("6_fe7xr")
+texture_disabled = ExtResource("6_fe7xr")
+texture_focused = ExtResource("6_fe7xr")
+ignore_texture_size = true
+
+[node name="Label" type="Label" parent="PlayAgainButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play again
+"
+label_settings = SubResource("LabelSettings_tn6dy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+uppercase = true
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="PlayAgainButton" to="." method="_on_play_again_button_pressed"]

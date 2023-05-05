@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfefb7wjmqox3"]
+[gd_scene load_steps=7 format=3 uid="uid://dfefb7wjmqox3"]
 
 [ext_resource type="Script" path="res://Source/UI/hud.gd" id="1_r0twu"]
 [ext_resource type="PackedScene" uid="uid://bfbwcptx5w4c3" path="res://Scenes/UI/Healthbar.tscn" id="2_nles8"]
 [ext_resource type="Texture2D" uid="uid://of63777nyawj" path="res://Assets/SVG/timer.svg" id="3_vrrdd"]
+[ext_resource type="Texture2D" uid="uid://cfmnc5w2l84co" path="res://Assets/Victory screen/+A.svg" id="4_lway3"]
+[ext_resource type="FontFile" uid="uid://b7j04d6lvtj3g" path="res://Assets/VCR_OSD_MONO_1.001(1).ttf" id="4_vrkai"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mcdoc"]
+font = ExtResource("4_vrkai")
 font_size = 40
 font_color = Color(0, 0, 0, 1)
 
@@ -91,5 +94,25 @@ text = "60"
 label_settings = SubResource("LabelSettings_mcdoc")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Player1Grade" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 40.0
+offset_top = 56.0
+offset_right = 210.0
+offset_bottom = 216.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lway3")
+
+[node name="Player2Grade" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 856.0
+offset_top = 64.0
+offset_right = 1026.0
+offset_bottom = 224.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lway3")
 
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
